@@ -1,8 +1,5 @@
 # Sistema de Matrículas da Universidade
 
-## Descrição do Sistema
-Uma universidade pretende informatizar seu sistema de matrículas. A secretaria da universidade gera o currículo para cada semestre e mantém as informações sobre as disciplinas, professores e alunos. Cada curso tem um nome, um determinado número de créditos e é constituído por diversas disciplinas. Os alunos podem se matricular em 4 disciplinas como 1ª opção (obrigatórias) e em mais 2 outras alternativas (optativas). Há períodos para efetuar matrículas, durante os quais um aluno pode acessar o sistema para se matricular em disciplinas e/ou para cancelar matrículas feitas anteriormente.
-
 ## Histórias de Usuário
 
 ### 1. Geração e Manutenção de Currículo
