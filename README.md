@@ -43,7 +43,7 @@ gostaria de ser cobrado pelo Sistema de Cobranças pela disciplina na qual me ma
 **para poder pagar a tempo.**
 
 ### 7. Notificação ao Sistema de Cobranças
-**Como Secretária**,  
+**Como sistema**,  
 gostaria de notificar o Sistema de Cobranças para realizar a cobrança do Aluno matriculado,  
 **para que os alunos possam ser cobrados pelas disciplinas nas quais estão matriculados.**
 
