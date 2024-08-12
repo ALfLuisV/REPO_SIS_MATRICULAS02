@@ -52,6 +52,6 @@ preciso acessar o Sistema para saber quais alunos estão matriculados em minha d
 quero cadastrar alunos e professores no sistema,  
 **para que eles possam acessar e utilizar o sistema de matrículas.**
 
-![Diagrama de Casos de Uso](docs/DiagramaDeCasoDeUso.jpg)
+![Diagrama de Casos de Uso](Docs/DiagramaDeCasoDeUso.jpg)
 
 
