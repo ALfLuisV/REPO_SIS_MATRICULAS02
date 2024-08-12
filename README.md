@@ -35,7 +35,7 @@ gostaria de encerrar matrículas para uma disciplina caso esta alcance o limite 
 ### #US7. Cobrança pela Matrícula
 **Como Aluno**,  
 gostaria de ser cobrado pelo Sistema de Cobranças pela disciplina na qual me matriculei,  
-**para poder pagar a tempo.**
+**para realizar o pagamento.**
 
 ### #US8. Notificação ao Sistema de Cobranças
 **Como sistema**,  
