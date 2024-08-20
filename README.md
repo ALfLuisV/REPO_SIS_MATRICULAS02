@@ -57,3 +57,6 @@ quero cadastrar alunos e professores no sistema,
 ![Diagrama de Casos de Uso](Docs/DiagramaDeCasoDeUso.jpg)
 
 
+## Diagrama de Classes 
+![diagrama de Classes](Docs/DiagramaDeClasse.png)
+
