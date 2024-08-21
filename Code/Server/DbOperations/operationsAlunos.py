@@ -1,4 +1,4 @@
-from .db_connection import connect_to_db
+from db_connection import connect_to_db
 
 # Função para inserir dados na tabela 'alunos'
 def inserir_aluno(nome, email, telefone):

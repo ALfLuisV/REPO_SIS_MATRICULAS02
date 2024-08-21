@@ -1,4 +1,4 @@
-from .usuario import Usuario
+from usuario import Usuario
 # from Code.Client.Classes.usuario import Usuario
 
 class Professor(Usuario):

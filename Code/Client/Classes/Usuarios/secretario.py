@@ -1,9 +1,10 @@
 import random
+from Code.Server.DbOperations.operationsAlunos import buscar_alunos, inserir_aluno
 from .professor import Professor
 from .aluno import Aluno
 from .usuario import Usuario
 
-from .operations import buscar_alunos, inserir_aluno
+
 
 
 
