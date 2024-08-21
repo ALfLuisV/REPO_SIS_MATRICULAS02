@@ -1,7 +1,10 @@
 import random
-from Classes.usuario import Usuario
-from Classes.aluno import Aluno
-from Classes.professor import Professor
+from .professor import Professor
+from .aluno import Aluno
+from .usuario import Usuario
+
+from .operations import buscar_alunos, inserir_aluno
+
 
 
 class Secretario(Usuario):
@@ -14,6 +17,15 @@ class Secretario(Usuario):
         self.idsecretario = idusuario
         self.turno = turno
         self.senha = senha_gerada
+
+
+    def buscaralunos(self):
+        """
+        fodase porraaaaaaaaaaaa
+        """
+        alunos = buscar_alunos()
+        for aluno in alunos:
+            print(aluno)
 
     def gerarsenha(self):
         """
@@ -46,12 +58,14 @@ class Secretario(Usuario):
         tel = input("Insira o telefone do aluno:")
         email = input("Insira o email do aluno:")
         senha_gerada = self.gerarsenha()
-        user1 = Usuario(1, name, tel, email)
+        user1 = Aluno(1, name, tel, email, "XXXXXXX")
         user1.senha = senha_gerada
         print(user1.nome)
         print(user1.telefone)
         print(user1.email)
         print(user1.senha)
+        inserir_aluno(user1.nome, user1.email, user1.telefone)
+        # buscar_alunos()
 
     def cadastrarprofessor(self):
         """
