@@ -1,8 +1,7 @@
-from usuario import Usuario
+from .usuario import Usuario
 
 class Aluno(Usuario):
-    def __init__(self, idaluno, matricula):
-        self.idaluno = idaluno
+    def __init__(self, matricula):
         self.matricula = matricula
 
         def matricular():
