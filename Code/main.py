@@ -4,8 +4,6 @@ from Classes.secretario import Secretario
 
 
 
-secretario = Secretario("Exemplo", "manha")
+secretario = Secretario(1, "maria","33753729","maria@gmail.com", "manha")
 secretario.cadastraraluno()
-
-
  
