@@ -3,7 +3,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parents[1]))
 
 
-from Server.db_connection import connect_to_db
+from db_connection import connect_to_db
 
 # Função para inserir dados na tabela 'alunos'
 def inserir_aluno(nome, email, telefone, senha):
@@ -11,16 +11,20 @@ def inserir_aluno(nome, email, telefone, senha):
     if connection and cursor:
         try:
             inserir_query_usuario = '''
-            INSERT INTO User (nome, email, telefone, senha) 
+            INSERT INTO users (name, number, email, password) 
             VALUES (%s, %s, %s, %s)
-            RETURNING idUsuario;;
+            RETURNING idusuario;
             '''
-            idUsuario = cursor.execute(inserir_query_usuario, (nome, email, telefone, senha))
+            
+            cursor.execute(inserir_query_usuario, (nome, telefone , email, senha))
+            idUsuario = cursor.fetchone()[0]
+            connection.commit()
+            print("usuario criado....")
+
             inserir_query_aluno = '''
             INSERT INTO Student (idStudent, registration)
-            VALUES (%s, %s);
+            VALUES (%d, %d);
             '''
-
             cursor.execute(inserir_query_aluno, (idUsuario, idUsuario * 10))
             connection.commit()
             print("Aluno inserido com sucesso.")

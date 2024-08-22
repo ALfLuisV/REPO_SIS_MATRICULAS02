@@ -2,10 +2,12 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parents[3]))
 import random
-from Server.DbOperations.operationsStudents import inserir_aluno, buscar_alunos
-from .professor import Professor
-from .aluno import Aluno
-from .usuario import Usuario
+from operationsStudents import inserir_aluno, buscar_alunos
+from operationsTeachers import inserir_prof, buscar_profs
+from operationsSecretary import inserir_secretario, buscar_secretarios
+from professor import Professor
+from aluno import Aluno
+from usuario import Usuario
 
 
 class Secretario(Usuario):
@@ -66,7 +68,6 @@ class Secretario(Usuario):
         print(user1.email)
         print(user1.senha)
         inserir_aluno(user1.nome, user1.email, user1.telefone, user1.senha)
-        # buscar_alunos()
 
     def cadastrarprofessor(self):
         """
@@ -80,6 +81,17 @@ class Secretario(Usuario):
         senha_gerada = self.gerarsenha()
         prof = Professor(1, name, tel, email, carga_horaria, salario)
         prof.senha = senha_gerada
+        inserir_prof(prof.nome, prof.email, prof.telefone, prof.senha, prof.cargahoraria, prof.salario)
+
+    def cadastrarsecretario(self):
+        name = input("Insira o nome do secretário:")
+        tel = input("Insira o telefone do secretário:")
+        email = input("Insira o email do secretário:")
+        turno = input("Insira o turno do secretário")
+        senha_gerada = self.gerarsenha()
+        sec = Secretario(1, name, tel, email, turno)
+        sec.senha = senha_gerada
+        inserir_secretario(sec.nome, sec.email, sec.telefone, sec.senha, sec.turno)
 
     def removeraluno(self):
         """
