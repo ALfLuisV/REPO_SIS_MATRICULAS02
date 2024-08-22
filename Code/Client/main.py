@@ -6,5 +6,5 @@ from Classes.Usuarios.secretario import Secretario
 
 sec1 = Secretario(1, "maria","33753729","maria@gmail.com", "manha")
 sec1.cadastraraluno()
-sec1.buscaralunos()
+# sec1.buscaralunos()
  

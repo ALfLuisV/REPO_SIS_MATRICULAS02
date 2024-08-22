@@ -2,10 +2,10 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parents[3]))
 import random
-from Server.DbOperations.operationsAlunos import inserir_aluno, buscar_alunos
-from Client.Classes.Usuarios.professor import Professor
-from Client.Classes.Usuarios.aluno import Aluno
-from Client.Classes.Usuarios.usuario import Usuario
+from Server.DbOperations.operationsStudents import inserir_aluno, buscar_alunos
+from .professor import Professor
+from .aluno import Aluno
+from .usuario import Usuario
 
 
 class Secretario(Usuario):
@@ -59,13 +59,13 @@ class Secretario(Usuario):
         tel = input("Insira o telefone do aluno:")
         email = input("Insira o email do aluno:")
         senha_gerada = self.gerarsenha()
-        user1 = Aluno(1, name, tel, email, "XXXXXXX")
+        user1 = Aluno("", name, tel, email, "XXXXXX")
         user1.senha = senha_gerada
         print(user1.nome)
         print(user1.telefone)
         print(user1.email)
         print(user1.senha)
-        inserir_aluno(user1.nome, user1.email, user1.telefone)
+        inserir_aluno(user1.nome, user1.email, user1.telefone, user1.senha)
         # buscar_alunos()
 
     def cadastrarprofessor(self):
