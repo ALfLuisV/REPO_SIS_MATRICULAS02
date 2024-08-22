@@ -1,6 +1,6 @@
 # from .Classes.aluno import Aluno
 # from .Classes.professor import Professor
-from Code.Client.Classes.Usuarios.secretario import Secretario
+from Classes.Usuarios.secretario import Secretario
 
 
 
