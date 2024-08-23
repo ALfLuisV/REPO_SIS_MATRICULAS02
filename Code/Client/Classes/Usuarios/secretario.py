@@ -1,11 +1,16 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[3]))
 import random
+
+sys.path.append(str(Path(__file__).parents[3]))
+
 from Server.DbOperations.operationsStudents import inserir_aluno, buscar_alunos
-from .professor import Professor
-from .aluno import Aluno
-from .usuario import Usuario
+
+sys.path.append(str(Path(__file__).parents[0]))
+
+from professor import Professor
+from aluno import Aluno
+from usuario import Usuario
 
 
 class Secretario(Usuario):
