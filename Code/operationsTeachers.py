@@ -39,14 +39,25 @@ def buscar_profs():
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
-            buscar_query = "SELECT * FROM teacher;"
+            buscar_query = '''
+            SELECT 
+                t.idteacher, 
+                u.name AS professor_name, 
+                t.workload, 
+                t.salary
+            FROM 
+                users u
+            JOIN 
+                teacher t 
+            ON 
+                u.idusuario = t.idteacher;
+            '''
             cursor.execute(buscar_query)
-            alunos = cursor.fetchall()
-            return alunos
-            # for aluno in alunos:
-            #     print(aluno)
+            profs = cursor.fetchall()
+            return profs
         except Exception as error:
             print(f"Erro ao buscar professores: {error}")
         finally:
             cursor.close()
             connection.close()
+

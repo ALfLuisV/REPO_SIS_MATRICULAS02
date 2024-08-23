@@ -23,7 +23,7 @@ def inserir_aluno(nome, email, telefone, senha):
 
             inserir_query_aluno = '''
             INSERT INTO Student (idStudent, registration)
-            VALUES (%d, %d);
+            VALUES (%s, %s);
             '''
             cursor.execute(inserir_query_aluno, (idUsuario, idUsuario * 10))
             connection.commit()

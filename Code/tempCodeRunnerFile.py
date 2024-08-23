@@ -1,1 +1,1 @@
-cadastrarprofessor
+cadastrar_curso

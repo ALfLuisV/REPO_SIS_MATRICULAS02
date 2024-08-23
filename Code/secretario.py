@@ -5,10 +5,12 @@ import random
 from operationsStudents import inserir_aluno, buscar_alunos
 from operationsTeachers import inserir_prof, buscar_profs
 from operationsSecretary import inserir_secretario, buscar_secretarios
+from operationsCourses import inserir_curso, buscar_cursos
+from operationsDiscipline import inserir_disciplinas, buscar_disciplinas
 from professor import Professor
 from aluno import Aluno
 from usuario import Usuario
-
+from curso import Curso
 
 class Secretario(Usuario):
     """
@@ -50,7 +52,7 @@ class Secretario(Usuario):
         """
         print("em breve")
 
-    def cadastraraluno(self):
+    def cadastrar_aluno(self):
         """
         Cadastra um aluno solicitando informações ao usuário via input.
 
@@ -69,7 +71,7 @@ class Secretario(Usuario):
         print(user1.senha)
         inserir_aluno(user1.nome, user1.email, user1.telefone, user1.senha)
 
-    def cadastrarprofessor(self):
+    def cadastrar_professor(self):
         """
         cadastra o professor
         """
@@ -83,7 +85,7 @@ class Secretario(Usuario):
         prof.senha = senha_gerada
         inserir_prof(prof.nome, prof.email, prof.telefone, prof.senha, prof.cargahoraria, prof.salario)
 
-    def cadastrarsecretario(self):
+    def cadastrar_secretario(self):
         name = input("Insira o nome do secretário:")
         tel = input("Insira o telefone do secretário:")
         email = input("Insira o email do secretário:")
@@ -92,6 +94,51 @@ class Secretario(Usuario):
         sec = Secretario(1, name, tel, email, turno)
         sec.senha = senha_gerada
         inserir_secretario(sec.nome, sec.email, sec.telefone, sec.senha, sec.turno)
+
+    def cadastrar_curso(self):
+        name = input("Insira o nome do curso: ")
+        creditos = input("Insira o total de creditos do curso: ")
+        curso = Curso(1, name, creditos)
+
+        idCourse = inserir_curso(curso.nomecurso, curso.numcreditos)#id do curso cadastrado, serve para a inserção das disciplinas no mesmo
+        self.inserir_disciplinas_em_novo_curso(idCourse)
+
+    def cadastrar_disciplinas(self, idd):
+        #Cria o array de disciplinas para ser inserida na tabela de disciplinas no bd
+        contInue = True
+        lista_disciplinas = []
+        professores = buscar_profs()
+
+        while contInue:
+            name = input("Insira o nome da disciplina: ")
+            creditos = input("Insira os creditos da disciplina: ")
+            tipo = input("insira o tipo de disciplina(Optativa/Obrigatoria): ")
+            
+            for prof in professores:
+                print(prof)
+            idProf = input("Insira o id do professor: ")
+            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd}
+            lista_disciplinas.append(disciplina)
+            cont = input("Deseja adicionar mais uma disciplina?(SIM: 1/ NÃO: 0):")
+            if cont == "0":
+                contInue = False
+        return lista_disciplinas
+    
+    def inserir_disciplinas_em_novo_curso(self, idd):
+        lista_disciplinas = self.cadastrar_disciplinas(idd)
+        inserir_disciplinas(lista_disciplinas)
+        
+
+    def cadastrar_disciplina_em_curso_existente(self):
+        cursos = buscar_cursos()
+        print("Lista de cursos:")
+        print(cursos)
+        idd = input("insira o id do curso desejado:")
+        lista_disciplinas = self.cadastrar_disciplinas(idd)
+        inserir_disciplinas(lista_disciplinas)
+
+
+
 
     def removeraluno(self):
         """
