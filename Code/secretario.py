@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parents[3]))
+import bcrypt
 import random
 from operationsStudents import inserir_aluno, buscar_alunos
 from operationsTeachers import inserir_prof, buscar_profs
@@ -11,6 +12,7 @@ from professor import Professor
 from aluno import Aluno
 from usuario import Usuario
 from curso import Curso
+from endereco import Endereco
 
 class Secretario(Usuario):
     """
@@ -45,6 +47,11 @@ class Secretario(Usuario):
                     break
             password += chr(number)
         return password
+    
+    def gerar_saltkey(self):
+     alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+     return "".join(random.choice(alphabet) for i in range(64))
+         
 
     def gerarcurriculo(self):
         """
@@ -65,11 +72,19 @@ class Secretario(Usuario):
         senha_gerada = self.gerarsenha()
         user1 = Aluno("", name, tel, email, "XXXXXX")
         user1.senha = senha_gerada
-        print(user1.nome)
-        print(user1.telefone)
-        print(user1.email)
-        print(user1.senha)
-        inserir_aluno(user1.nome, user1.email, user1.telefone, user1.senha)
+        sk = bcrypt.gensalt()
+        senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
+        inserir_aluno(user1.nome, user1.email, user1.telefone, senha_hash, sk)
+
+
+
+
+        # verificação de senha:
+        # if bcrypt.checkpw(user1.senha.encode('utf-8'), senha_hash):
+        #       print("Senha correta!")
+        # else:
+        #       print("Senha incorreta!")
+
 
     def cadastrar_professor(self):
         """
@@ -83,8 +98,12 @@ class Secretario(Usuario):
         senha_gerada = self.gerarsenha()
         prof = Professor(1, name, tel, email, carga_horaria, salario)
         prof.senha = senha_gerada
-        inserir_prof(prof.nome, prof.email, prof.telefone, prof.senha, prof.cargahoraria, prof.salario)
+        sk = bcrypt.gensalt()
+        senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
+        inserir_prof(prof.nome, prof.email, prof.telefone, senha_hash, sk, prof.cargahoraria, prof.salario)
 
+
+        
     def cadastrar_secretario(self):
         name = input("Insira o nome do secretário:")
         tel = input("Insira o telefone do secretário:")
@@ -93,7 +112,21 @@ class Secretario(Usuario):
         senha_gerada = self.gerarsenha()
         sec = Secretario(1, name, tel, email, turno)
         sec.senha = senha_gerada
-        inserir_secretario(sec.nome, sec.email, sec.telefone, sec.senha, sec.turno)
+        sk = bcrypt.gensalt()
+        senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
+        inserir_secretario(sec.nome, sec.email, sec.telefone, senha_hash, sk, sec.turno)
+    
+    def inserir_endereço(self, idd):
+        street = input("Insira a rua: ")
+        city = input("Insira a cidade: ")
+        state = input("Insira o estado: ")
+        country = input("Insira o país: ")
+
+        end = Endereco(street, city, state, country)
+        
+        
+
+
 
     def cadastrar_curso(self):
         name = input("Insira o nome do curso: ")
@@ -103,8 +136,8 @@ class Secretario(Usuario):
         idCourse = inserir_curso(curso.nomecurso, curso.numcreditos)#id do curso cadastrado, serve para a inserção das disciplinas no mesmo
         self.inserir_disciplinas_em_novo_curso(idCourse)
 
-    def cadastrar_disciplinas(self, idd):
-        #Cria o array de disciplinas para ser inserida na tabela de disciplinas no bd
+    def criar_array_disciplinas(self, idd):
+        #Cria o array de disciplinas para ser inserida na tabela de disciplinas no bd (o id do curso pertencente já vai inserido no array)
         contInue = True
         lista_disciplinas = []
         professores = buscar_profs()
@@ -125,7 +158,7 @@ class Secretario(Usuario):
         return lista_disciplinas
     
     def inserir_disciplinas_em_novo_curso(self, idd):
-        lista_disciplinas = self.cadastrar_disciplinas(idd)
+        lista_disciplinas = self.criar_array_disciplinas(idd)
         inserir_disciplinas(lista_disciplinas)
         
 
@@ -134,11 +167,8 @@ class Secretario(Usuario):
         print("Lista de cursos:")
         print(cursos)
         idd = input("insira o id do curso desejado:")
-        lista_disciplinas = self.cadastrar_disciplinas(idd)
+        lista_disciplinas = self.criar_array_disciplinas(idd)
         inserir_disciplinas(lista_disciplinas)
-
-
-
 
     def removeraluno(self):
         """
