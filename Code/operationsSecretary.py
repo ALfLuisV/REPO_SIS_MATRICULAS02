@@ -28,6 +28,7 @@ def inserir_secretario(nome, email, telefone, senha, sk, turno):
             cursor.execute(inserir_query_secretario, (idUsuario, turno))
             connection.commit()
             print("Secretario inserido com sucesso.")
+            return idUsuario
         except Exception as error:
             print(f"Erro ao inserir secretario: {error}")
         finally:

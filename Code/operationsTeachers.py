@@ -28,6 +28,7 @@ def inserir_prof(nome, email, telefone, senha, sk,  cargaH, salario):
             cursor.execute(inserir_query_prof, (idUsuario, cargaH, float(salario)))
             connection.commit()
             print("Professor inserido com sucesso.")
+            return idUsuario
         except Exception as error:
             print(f"Erro ao inserir professor: {error}")
         finally:

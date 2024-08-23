@@ -8,6 +8,7 @@ from operationsTeachers import inserir_prof, buscar_profs
 from operationsSecretary import inserir_secretario, buscar_secretarios
 from operationsCourses import inserir_curso, buscar_cursos
 from operationsDiscipline import inserir_disciplinas, buscar_disciplinas
+from operationsAdress import inserir_endereco, buscar_endereco
 from professor import Professor
 from aluno import Aluno
 from usuario import Usuario
@@ -74,8 +75,8 @@ class Secretario(Usuario):
         user1.senha = senha_gerada
         sk = bcrypt.gensalt()
         senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
-        inserir_aluno(user1.nome, user1.email, user1.telefone, senha_hash, sk)
-
+        id_usuario = inserir_aluno(user1.nome, user1.email, user1.telefone, senha_hash, sk)
+        self.inserir_endereco(id_usuario)
 
 
 
@@ -100,8 +101,8 @@ class Secretario(Usuario):
         prof.senha = senha_gerada
         sk = bcrypt.gensalt()
         senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
-        inserir_prof(prof.nome, prof.email, prof.telefone, senha_hash, sk, prof.cargahoraria, prof.salario)
-
+        id_usuario = inserir_prof(prof.nome, prof.email, prof.telefone, senha_hash, sk, prof.cargahoraria, prof.salario)
+        self.inserir_endereco(id_usuario)
 
         
     def cadastrar_secretario(self):
@@ -114,16 +115,18 @@ class Secretario(Usuario):
         sec.senha = senha_gerada
         sk = bcrypt.gensalt()
         senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
-        inserir_secretario(sec.nome, sec.email, sec.telefone, senha_hash, sk, sec.turno)
+        id_usuario = inserir_secretario(sec.nome, sec.email, sec.telefone, senha_hash, sk, sec.turno)
+        self.inserir_endereco(id_usuario)
     
-    def inserir_endereço(self, idd):
+    def inserir_endereco(self, idd):
         street = input("Insira a rua: ")
         city = input("Insira a cidade: ")
         state = input("Insira o estado: ")
         country = input("Insira o país: ")
 
         end = Endereco(street, city, state, country)
-        
+        inserir_endereco(end.rua, end.cidade, end.estado, end.pais, idd)
+
         
 
 

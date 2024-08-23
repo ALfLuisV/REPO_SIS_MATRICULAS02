@@ -28,6 +28,7 @@ def inserir_aluno(nome, email, telefone, senha, sk):
             cursor.execute(inserir_query_aluno, (idUsuario, idUsuario * 10))
             connection.commit()
             print("Aluno inserido com sucesso.")
+            return idUsuario
         except Exception as error:
             print(f"Erro ao inserir aluno: {error}")
         finally:
