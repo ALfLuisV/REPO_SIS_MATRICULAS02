@@ -19,48 +19,90 @@ class Main:
         app.geometry("700x500")
         
     def TelaSelecao(self):
+        # Destruir todos os frames atuais
+        for widget in app.winfo_children():
+            widget.destroy()
         
-        #Frame
+        # Frame
         selecao_frame = ctk.CTkFrame(master=app, width=250, height=300)
         selecao_frame.place(x=230, y=90)
         
-        #Texto
+        # Texto
         titulo = ctk.CTkLabel(master=selecao_frame, text="Selecione o tipo de usuário", font=("Arial", 18)).place(x=20, y=15)
         
-        #Botoes
-        def TelaLoginSecretaria():
-        
-            #Apagar frame anterior
-            selecao_frame.place_forget()
-            
-            #Frame
-            loginSecretaria_frame = ctk.CTkFrame(master=app, width=300, height=500)
-            loginSecretaria_frame.pack(expand=True, side="right", fill="both")
-            
-            imgLoginSecretaria = ctk.CTkLabel(master=app, text="" ,image=imgLogin)
-            imgLoginSecretaria.pack(expand=True, side="left")
-            
-            ctk.CTkLabel(master=loginSecretaria_frame, text="Bem Vindo!", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(50, 5), padx=(25, 0))
-            ctk.CTkLabel(master=loginSecretaria_frame, text="Sign in to your account", text_color="#7E7E7E", anchor="w", justify="left", font=("Arial Bold", 12)).pack(anchor="w", padx=(25, 0))
-            
-            ctk.CTkLabel(master=loginSecretaria_frame, text="  Email:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(38, 0), padx=(25, 0))
-            ctk.CTkEntry(master=loginSecretaria_frame, width=300, fg_color="#EEEEEE", border_color="#601E88", border_width=1, text_color="#000000").pack(anchor="w", padx=(25, 0))
+        # Botões
+        btn_secretaria = ctk.CTkButton(master=selecao_frame, text="Secretaria", command=self.TelaLoginSecretaria, width=230, height=50, corner_radius=30).place(x=10, y=70)
+        btn_aluno = ctk.CTkButton(master=selecao_frame, text="Aluno", command=self.TelaLoginAluno, width=230, height=50, corner_radius=30).place(x=10, y=130)
+        btn_professor = ctk.CTkButton(master=selecao_frame, text="Professor", command=self.TelaLoginProfessor, width=230, height=50, corner_radius=30).place(x=10, y=190)
 
-            ctk.CTkLabel(master=loginSecretaria_frame, text="  Password:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(21, 0), padx=(25, 0))
-            ctk.CTkEntry(master=loginSecretaria_frame, width=300, fg_color="#EEEEEE", border_color="#601E88", border_width=1, text_color="#000000", show="*").pack(anchor="w", padx=(25, 0))
+    def TelaLogin(self, usuario_tipo):
+        # Destruir todos os frames atuais
+        for widget in app.winfo_children():
+            widget.destroy()
+        
+        # Frame para o login
+        login_frame = ctk.CTkFrame(master=app, width=300, height=500)
+        login_frame.pack(expand=True, side="right", fill="both")
+        
+        imgTelaLogin = ctk.CTkLabel(master=app, text="" ,image=imgLogin)
+        imgTelaLogin.pack(expand=True, side="left")
+        
+        titulo = ctk.CTkLabel(master=login_frame, text=f"Bem Vindo, {usuario_tipo}!", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(50, 15), padx=(25, 0))
+        
+        subTitulo = ctk.CTkLabel(master=login_frame, text="Por Favor Insira Suas Credenciais De Acesso", text_color="#fff", anchor="w", justify="left", font=("Arial Bold", 14)).pack(anchor="w", padx=(25, 0))
+        
+        emailLabel = ctk.CTkLabel(master=login_frame, text="  Email:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(38, 0), padx=(25, 0))
+        
+        emailInput = ctk.CTkEntry(master=login_frame, width=300, height=35, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000").pack(anchor="w", padx=(25, 0))
 
-            ctk.CTkButton(master=loginSecretaria_frame, text="Login", fg_color="#601E88", hover_color="#E44982", font=("Arial Bold", 12), text_color="#ffffff", width=300).pack(anchor="w", pady=(40, 0), padx=(25, 0))
-            
-        btn_secretaria = ctk.CTkButton(master=selecao_frame, text="Secretaria", command=TelaLoginSecretaria, width=230, height=50, corner_radius=30).place(x=10, y=70)
+        senhaLabel = ctk.CTkLabel(master=login_frame, text="  Password:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(21, 0), padx=(25, 0))
         
-        def TelaAluno():
-            pass
+        senhaInput = ctk.CTkEntry(master=login_frame, width=300, height=35, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", show="*").pack(anchor="w", padx=(25, 0))
+
+        btnLogin = ctk.CTkButton(master=login_frame, text="Login", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 12), text_color="#ffffff", width=300, height=50, command=lambda: self.ProximaTela(usuario_tipo)).pack(anchor="w", pady=(50, 0), padx=(25, 0))
         
-        btn_aluno = ctk.CTkButton(master=selecao_frame, text="Aluno", command=TelaAluno, width=230, height=50, corner_radius=30).place(x=10, y=130)
+        btnVoltar = ctk.CTkButton(master=login_frame, text="Voltar", command=self.TelaSelecao, fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 12), text_color="#ffffff", width=50, height=30).pack(anchor="w", pady=(30, 0), padx=(275, 0))
+
+    def TelaLoginSecretaria(self):
+        self.TelaLogin("Secretaria")
+
+    def TelaLoginAluno(self):
+        self.TelaLogin("Aluno")
+
+    def TelaLoginProfessor(self):
+        self.TelaLogin("Professor")
         
-        def TelaProfessor():
-            pass
+    def TelaSecretaria(self):
+        # Destruir todos os frames atuais
+        for widget in app.winfo_children():
+            widget.destroy()
         
-        btn_professor = ctk.CTkButton(master=selecao_frame, text="Professor", command=TelaProfessor, width=230, height=50, corner_radius=30).place(x=10, y=190)
+        ctk.CTkLabel(master=app, text="Tela Principal - Secretaria", font=("Arial", 24)).pack(pady=20)
     
+    def TelaAluno(self):
+        # Destruir todos os frames atuais
+        for widget in app.winfo_children():
+            widget.destroy()
+        
+        ctk.CTkLabel(master=app, text="Tela Principal - Aluno", font=("Arial", 24)).pack(pady=20)
+        
+    def TelaProfessor(self):
+        # Destruir todos os frames atuais
+        for widget in app.winfo_children():
+            widget.destroy()
+        
+        ctk.CTkLabel(master=app, text="Tela Principal - Professor", font=("Arial", 24)).pack(pady=20)
+    
+    def ProximaTela(self, usuario_tipo):
+        # Destruir todos os frames atuais
+        for widget in app.winfo_children():
+            widget.destroy()
+        
+        if usuario_tipo == "Secretaria":
+            ctk.CTkLabel(master=app, text="Tela Principal - Secretaria", font=("Arial", 24)).pack(pady=20)
+        elif usuario_tipo == "Aluno":
+            ctk.CTkLabel(master=app, text="Tela Principal - Aluno", font=("Arial", 24)).pack(pady=20)
+        elif usuario_tipo == "Professor":
+            ctk.CTkLabel(master=app, text="Tela Principal - Professor", font=("Arial", 24)).pack(pady=20)
+
 Main()
