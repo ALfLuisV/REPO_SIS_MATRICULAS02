@@ -27,7 +27,7 @@ def inserir_curso(name, creditos):
             cursor.close()
             connection.close()
 
-# Função para buscar todos os alunos
+# Função para buscar todos os cursos
 def buscar_cursos():
     connection, cursor = connect_to_db()
     if connection and cursor:

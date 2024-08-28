@@ -1,1 +1,2 @@
-cadastrar_curso
+
+                    print(obrigatorias)

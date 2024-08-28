@@ -50,6 +50,8 @@ class Secretario(Usuario):
         return password
     
     def gerar_saltkey(self):
+     """essa porra aqui é inutil (achei q ia precisar)"""
+
      alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
      return "".join(random.choice(alphabet) for i in range(64))
          
@@ -62,11 +64,9 @@ class Secretario(Usuario):
 
     def cadastrar_aluno(self):
         """
-        Cadastra um aluno solicitando informações ao usuário via input.
-
-        Este método solicita o nome, telefone, e-mail e gera uma senha para o aluno.
-        Cria uma instância de Usuario com essas informações e exibe os dados.
+        cadastra o aluno e utiliza uma senha criptografada
         """
+
         name = input("Insira o nome do aluno:")
         tel = input("Insira o telefone do aluno:")
         email = input("Insira o email do aluno:")
@@ -89,7 +89,7 @@ class Secretario(Usuario):
 
     def cadastrar_professor(self):
         """
-        cadastra o professor
+        cadastra o professor e utiliza uma senha criptografada
         """
         name = input("Insira o nome do professor:")
         tel = input("Insira o telefone do professor:")
@@ -106,6 +106,10 @@ class Secretario(Usuario):
 
         
     def cadastrar_secretario(self):
+        """
+        cadastra o secretário e utiliza uma senha criptografada
+        """
+
         name = input("Insira o nome do secretário:")
         tel = input("Insira o telefone do secretário:")
         email = input("Insira o email do secretário:")
@@ -119,6 +123,11 @@ class Secretario(Usuario):
         self.inserir_endereco(id_usuario)
     
     def inserir_endereco(self, idd):
+        """
+        metodo utilizado para inserir o endereço em um id de um usuario(novo ou previamente criado),
+        recebe o id deste usuario como argumento e insere os dados no banco pela função "inserir_endereco"
+        """
+
         street = input("Insira a rua: ")
         city = input("Insira a cidade: ")
         state = input("Insira o estado: ")
@@ -132,6 +141,9 @@ class Secretario(Usuario):
 
 
     def cadastrar_curso(self):
+        """
+        cadastra o curso, lmao
+        """
         name = input("Insira o nome do curso: ")
         creditos = input("Insira o total de creditos do curso: ")
         curso = Curso(1, name, creditos)
@@ -140,7 +152,10 @@ class Secretario(Usuario):
         self.inserir_disciplinas_em_novo_curso(idCourse)
 
     def criar_array_disciplinas(self, idd):
-        #Cria o array de disciplinas para ser inserida na tabela de disciplinas no bd (o id do curso pertencente já vai inserido no array)
+        """
+        Cria o array de disciplinas para ser inserida na tabela de disciplinas no bd (o id do curso pertencente já vai inserido no array)
+        """
+
         contInue = True
         lista_disciplinas = []
         professores = buscar_profs()
@@ -161,11 +176,23 @@ class Secretario(Usuario):
         return lista_disciplinas
     
     def inserir_disciplinas_em_novo_curso(self, idd):
+        """
+        metodo onde disciplinas serão inseridas num curso recem criado, onde as disciplinas serão cadastradas no metodo "criar_array_disciplinas"
+         e depois inseridas no banco pelo metodo "inserir_disciplinas"
+        """
+
         lista_disciplinas = self.criar_array_disciplinas(idd)
         inserir_disciplinas(lista_disciplinas)
         
 
     def cadastrar_disciplina_em_curso_existente(self):
+        """
+        metodo responsavel por cadastrar a disciplina em um curso já existente, onde ele mostra a lista de cursos,
+        o secretario insere o id no metodo do cadastro de disciplinas chamado "criar_array_disciplinas", e depois estas disciplinas são inseridas no banco de dados 
+        pelo metodo "inserir_disciplina"
+         """
+        
+
         cursos = buscar_cursos()
         print("Lista de cursos:")
         print(cursos)
