@@ -17,6 +17,7 @@ class Main:
         # Criando a janela
         app.title("TechMatriculas")
         app.geometry("700x500")
+        ctk.set_appearance_mode("dark")
         
     def TelaSelecao(self):
         # Esconde todos os frames atuais
@@ -27,16 +28,16 @@ class Main:
             widget.grid_forget()
         
         # Frame
-        selecao_frame = ctk.CTkFrame(master=app, width=250, height=300)
+        selecao_frame = ctk.CTkFrame(master=app, width=250, height=300, border_color="#601E88", border_width=2, corner_radius=30)
         selecao_frame.place(x=230, y=90)
         
         # Texto
-        titulo = ctk.CTkLabel(master=selecao_frame, text="Selecione o tipo de usuário", font=("Arial", 18)).place(x=20, y=15)
+        titulo = ctk.CTkLabel(master=selecao_frame, text="Selecione o tipo de Usuário", font=("Arial Bold", 18)).place(x=20, y=15)
         
         # Botões
-        btn_secretaria = ctk.CTkButton(master=selecao_frame, text="Secretaria", command=self.TelaLoginSecretaria, width=230, height=50, corner_radius=30).place(x=10, y=70)
-        btn_aluno = ctk.CTkButton(master=selecao_frame, text="Aluno", command=self.TelaLoginAluno, width=230, height=50, corner_radius=30).place(x=10, y=130)
-        btn_professor = ctk.CTkButton(master=selecao_frame, text="Professor", command=self.TelaLoginProfessor, width=230, height=50, corner_radius=30).place(x=10, y=190)
+        btn_secretaria = ctk.CTkButton(master=selecao_frame, text="Secretaria", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), command=self.TelaLoginSecretaria, width=230, height=50, corner_radius=30).place(x=10, y=70)
+        btn_aluno = ctk.CTkButton(master=selecao_frame, text="Aluno", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), command=self.TelaLoginAluno, width=230, height=50, corner_radius=30).place(x=10, y=130)
+        btn_professor = ctk.CTkButton(master=selecao_frame, text="Professor", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), command=self.TelaLoginProfessor, width=230, height=50, corner_radius=30).place(x=10, y=190)
 
     def TelaLogin(self, usuario_tipo):
         # Esconde todos os frames atuais
@@ -96,7 +97,15 @@ class Main:
             widget.place_forget()
             widget.grid_forget()
         
-        ctk.CTkLabel(master=app, text="Tela Principal - Aluno", font=("Arial", 24)).pack(pady=20)
+        #Frame
+        alunoDisciplinas_frame = ctk.CTkScrollableFrame(master=app, width=150, height=500)
+        alunoDisciplinas_frame.pack(expand=True, side="right", fill="both", padx=(20, 20), pady=(20, 20))
+        
+        alunoMatriculas_frame = ctk.CTkScrollableFrame(master=app, width=150, height=500)
+        alunoMatriculas_frame.pack(expand=True, side="left", fill="both", padx=(20, 20), pady=(20, 20))
+        
+        titulo1 = ctk.CTkLabel(master=alunoDisciplinas_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20)
+        titulo2 = ctk.CTkLabel(master=alunoMatriculas_frame, text="Minhas Matriculas", font=("Arial Bold", 20)).pack(pady=20)
         
     def TelaProfessor(self):
         # Esconde todos os frames atuais
@@ -106,14 +115,15 @@ class Main:
             widget.place_forget()
             widget.grid_forget()
             
+        #Frames
         professorDisciplina_frame = ctk.CTkScrollableFrame(master=app, width=150, height=500)
         professorDisciplina_frame.pack(expand=True, side="left", fill="both", padx=(20, 20), pady=(20, 20))
         
         professorAlunos_frame = ctk.CTkScrollableFrame(master=app, width=150, height=500)
         professorAlunos_frame.pack(expand=True, side="right", fill="both", padx=(20, 20), pady=(20, 20))
         
-        ctk.CTkLabel(master=professorDisciplina_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20)
-        ctk.CTkLabel(master=professorAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(pady=20)
+        titulo1 = ctk.CTkLabel(master=professorDisciplina_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20)
+        titulo2 = ctk.CTkLabel(master=professorAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(pady=20)
         
         
     
@@ -126,9 +136,9 @@ class Main:
             widget.grid_forget()
         
         if usuario_tipo == "Secretario(a)":
-            ctk.CTkLabel(master=app, text="Tela Principal - Secretario", font=("Arial", 24)).pack(pady=20)
+            self.TelaSecretaria()
         elif usuario_tipo == "Aluno(a)":
-            ctk.CTkLabel(master=app, text="Tela Principal - Aluno", font=("Arial", 24)).pack(pady=20)
+            self.TelaAluno()
         elif usuario_tipo == "Professor(a)":
             self.TelaProfessor()
 
