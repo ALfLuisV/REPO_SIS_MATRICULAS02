@@ -73,6 +73,7 @@ class Secretario(Usuario):
         senha_gerada = self.gerarsenha()
         user1 = Aluno("", name, tel, email, "XXXXXX")
         user1.senha = senha_gerada
+        print(senha_gerada)
         sk = bcrypt.gensalt()
         senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
         id_usuario = inserir_aluno(user1.nome, user1.email, user1.telefone, senha_hash, sk)
@@ -127,7 +128,7 @@ class Secretario(Usuario):
         metodo utilizado para inserir o endereço em um id de um usuario(novo ou previamente criado),
         recebe o id deste usuario como argumento e insere os dados no banco pela função "inserir_endereco"
         """
-
+        print("Cadastre o endereço:")
         street = input("Insira a rua: ")
         city = input("Insira a cidade: ")
         state = input("Insira o estado: ")
@@ -164,11 +165,12 @@ class Secretario(Usuario):
             name = input("Insira o nome da disciplina: ")
             creditos = input("Insira os creditos da disciplina: ")
             tipo = input("insira o tipo de disciplina(Optativa/Obrigatoria): ")
+            periodo = input("Insira o perido do curso referente a disciplina: ")
             
             for prof in professores:
                 print(prof)
             idProf = input("Insira o id do professor: ")
-            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd}
+            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd, "period": periodo}
             lista_disciplinas.append(disciplina)
             cont = input("Deseja adicionar mais uma disciplina?(SIM: 1/ NÃO: 0):")
             if cont == "0":

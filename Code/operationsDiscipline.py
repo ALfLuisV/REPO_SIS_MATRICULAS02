@@ -16,7 +16,7 @@ def inserir_disciplinas(lista_disciplinas):
             lista_disciplinas_length = len(lista_disciplinas)
 
             insert_disciplines_query = '''
-            INSERT INTO discipline (name, credits, type, IdTeacher, IdCourse)
+            INSERT INTO discipline (name, credits, type, IdTeacher, IdCourse, period)
             VALUES
             '''
 
@@ -25,11 +25,11 @@ def inserir_disciplinas(lista_disciplinas):
                 count += 1
                 if count == lista_disciplinas_length-1:
                     insert_disciplines_query += f'''
-                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]});
+                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}, {disciplina["period"]});
                     '''
                 else:
                     insert_disciplines_query += f'''
-                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}),
+                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}, {disciplina["period"]}),
                     '''
 
 
