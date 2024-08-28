@@ -82,13 +82,71 @@ class Main:
     def TelaSecretaria(self):
         # Esconde todos os frames atuais
         for widget in app.winfo_children():
-            # widget.destroy()
             widget.pack_forget()
             widget.place_forget()
             widget.grid_forget()
         
-        ctk.CTkLabel(master=app, text="Tela Principal - Secretaria", font=("Arial", 24)).pack(pady=20)
-    
+        # Adiciona um TabView para as abas Dashboard e Gerência
+        tab_view = ctk.CTkTabview(master=app)
+        tab_view.pack(padx=(20), pady=(20), expand=True, fill="both")
+
+        # Cria a aba Dashboard
+        tab_view.add("Dashboard")
+        
+        # Cria a aba Gerência
+        tab_view.add("Gerência")
+
+        # Define a aba "Dashboard" como a aba inicial aberta
+        tab_view.set("Dashboard")
+        
+        # ===================== Conteúdo da aba Dashboard =====================
+        
+        dashboard_frame = tab_view.tab("Dashboard")
+        
+        # Configurando a grade no dashboard_frame
+        dashboard_frame.grid_columnconfigure(0, weight=1)
+        dashboard_frame.grid_columnconfigure(1, weight=1)
+        dashboard_frame.grid_rowconfigure(0, weight=1)
+        dashboard_frame.grid_rowconfigure(1, weight=1)
+
+        # Frame para Disciplinas (cobre as duas colunas na primeira linha)
+        secretariaDisciplinas_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=500)
+        secretariaDisciplinas_frame.grid(row=0, column=1, rowspan=2, sticky="nsew", padx=(20, 20), pady=(20, 20))
+
+        # Frame para Professores
+        secretariaProfessores_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=250)
+        secretariaProfessores_frame.grid(row=0, column=0, sticky="nsew", padx=(20, 20), pady=(20, 20))
+
+        # Frame para Alunos
+        secretariaAlunos_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=250)
+        secretariaAlunos_frame.grid(row=1, column=0, sticky="nsew", padx=(20, 20), pady=(20, 20))
+
+        # Labels
+        ctk.CTkLabel(master=secretariaDisciplinas_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20, padx=(40,0), side="left")
+        ctk.CTkLabel(master=secretariaProfessores_frame, text="Professores", font=("Arial Bold", 20)).pack(pady=20, padx=(40,0), side="left")
+        ctk.CTkLabel(master=secretariaAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(pady=20, padx=(40,0), side="left")
+        
+        # Botões
+        btnCadastrarDisciplina = ctk.CTkButton(master=secretariaDisciplinas_frame, text="Novo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=30, height=25, corner_radius=30).pack(pady=20, padx=(0,40), side="right")
+        btnCadastrarProfessor = ctk.CTkButton(master=secretariaProfessores_frame, text="Novo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=30, height=25, corner_radius=30).pack(pady=20, padx=(0,40), side="right")
+        btnCadastrarAluno = ctk.CTkButton(master=secretariaAlunos_frame, text="Novo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=30, height=25, corner_radius=30).pack(pady=20, padx=(0,40), side="right")
+
+        # ===================== Conteúdo da aba Gerência =====================
+        
+        gerencia_frame = tab_view.tab("Gerência")
+        
+        # Configurando a grade no gerencia_frame (aqui você pode adicionar o conteúdo específico de Gerência)
+        gerencia_frame.grid_columnconfigure(0, weight=1)
+        gerencia_frame.grid_columnconfigure(1, weight=1)
+        gerencia_frame.grid_rowconfigure(0, weight=1)
+        gerencia_frame.grid_rowconfigure(1, weight=1)
+
+        # Exemplo de conteúdo na aba Gerência (você pode modificar conforme necessário)
+        ctk.CTkLabel(master=gerencia_frame, text="Gerenciamento de Recursos", font=("Arial Bold", 20)).grid(row=0, column=0, columnspan=2, pady=(20, 20))
+
+        # Outros frames e widgets relacionados à Gerência podem ser adicionados aqui
+
+        
     def TelaAluno(self):
         # Esconde todos os frames atuais
         for widget in app.winfo_children():
