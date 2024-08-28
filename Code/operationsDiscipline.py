@@ -100,7 +100,7 @@ def matricular_aluno(lista_disciplinas):
 
 
 
-            print(insert_disciplines_query)
+            # print(insert_disciplines_query)
             cursor.execute(insert_disciplines_query)
             connection.commit()
             print("Matricula realizada com sucesso!!!!")

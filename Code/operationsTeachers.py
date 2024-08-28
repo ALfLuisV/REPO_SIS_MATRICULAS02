@@ -62,3 +62,62 @@ def buscar_profs():
             cursor.close()
             connection.close()
 
+def buscar_disciplinas(idd):
+    connection, cursor = connect_to_db()
+    if connection and cursor:
+        try:
+            buscar_query = '''
+            SELECT 
+    d.iddiscipline, 
+    d.name AS discipline_name, 
+    d.credits, 
+    d.idcourse, 
+    d.type,
+    c.name AS course_name, 
+    t.idteacher 
+FROM 
+    discipline d
+JOIN 
+    course c ON d.idcourse = c.idcourse
+JOIN 
+    teacher t ON d.idteacher = t.idteacher
+WHERE 
+    t.idteacher = %s; 
+
+            '''
+            cursor.execute(buscar_query, (idd,))
+            profs = cursor.fetchall()
+            return profs
+        except Exception as error:
+            print(f"Erro ao buscar disciplinas: {error}")
+        finally:
+            cursor.close()
+            connection.close()
+
+def buscar_alunos_disciplina(id_disciplina):
+    connection, cursor = connect_to_db()
+    if connection and cursor:
+        try:
+            buscar_query = '''
+            SELECT 
+    u.name, 
+    u.email
+FROM 
+    registration r
+JOIN 
+    student s ON r.idstudent = s.idstudent
+JOIN 
+    users u ON s.idstudent = u.idusuario
+WHERE 
+    r.iddiscipline = %s;
+
+            '''
+            cursor.execute(buscar_query, (id_disciplina,))
+            profs = cursor.fetchall()
+            return profs
+        except Exception as error:
+            print(f"Erro ao buscar disciplinas: {error}")
+        finally:
+            cursor.close()
+            connection.close()
+
