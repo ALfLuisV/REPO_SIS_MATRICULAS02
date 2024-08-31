@@ -12,12 +12,7 @@ def inserir_cobranca(lista_disciplinas, lista_ids, id_aluno):
     if connection and cursor:
         try:
 
-            # disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd}
-
-            
             nova_lista_ids = [item[0] for item in lista_ids]#formata o array de ids de matricula
-
-            # print("teste")
 
             
 
@@ -27,11 +22,7 @@ def inserir_cobranca(lista_disciplinas, lista_ids, id_aluno):
 
             resultado = [item[0][0] for item in lista_type_discipline]#formata o array de tipos de disciplinas matriculas
             
-            #criação do array final para enviar para o banco de dados
             chargers_list = [] 
-
-            # print(nova_lista_ids)
-            # print(resultado)
 
             for i in range(len(lista_disciplinas)):
                 if resultado[i] == 'Obrigatoria':
@@ -40,8 +31,6 @@ def inserir_cobranca(lista_disciplinas, lista_ids, id_aluno):
                     charge = {"debt": 3, "fee": 800.00, "status": "pendente", "id_registration": nova_lista_ids[i], "id_student": id_aluno}
                 
                 chargers_list.append(charge)
-
-            # print(chargers_list)
 
             lista_charge_length = len(chargers_list)
 
@@ -65,13 +54,6 @@ def inserir_cobranca(lista_disciplinas, lista_ids, id_aluno):
                     ('{charge["debt"]}', {charge["fee"]}, '{charge["status"]}', {charge["id_registration"]}, {charge["id_student"]}),
                     '''
                 
-
-            
-
-            # print(insert_disciplines_query)
-            # print(lista_disciplinas)
-            # print(lista_ids)
-
             cursor.execute(insert_disciplines_query)
             connection.commit()
             print("Cobrança(s) registrada(s) com sucesso.")

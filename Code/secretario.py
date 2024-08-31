@@ -28,9 +28,6 @@ class Secretario(Usuario):
 
 
     def buscaralunos(self):
-        """
-        fodase porraaaaaaaaaaaa
-        """
         alunos = buscar_alunos()
         for aluno in alunos:
             print(aluno)
@@ -53,15 +50,16 @@ class Secretario(Usuario):
     def gerarcurriculo(self):
         """
         
-        primeiro,realiza a verificação de turmas com < 3 alunos e seta o status para cancelado
+        primeiro,realiza a verificação de turmas com < 3 alunos e seta o status para cancelado ("cancelamento_disciplina()")
         
-        verifica as turmas que estão cheias, altera o status pra ativa e zera o numero de alunos
+        verifica as turmas que estão cheias, altera o status pra ativa e zera o numero de alunos("reiniciar_disciplina()")
 
         exibe todas as ativas no curriculo
         """
 
 
         cancelamento_disciplina()
+
         reiniciar_disciplina()
 
         cursos = buscar_cursos()
@@ -72,9 +70,9 @@ class Secretario(Usuario):
 
         disciplinas = buscar_disciplinas(id_curso)
 
-        print(disciplinas)
+        disciplinas.sort(key=lambda x: x[6])
 
-        print("em breve")
+        print(disciplinas)#ordenar este array
 
     def cadastrar_aluno(self):
         """
@@ -168,7 +166,7 @@ class Secretario(Usuario):
 
     def criar_array_disciplinas(self, idd):
         """
-        Cria o array de disciplinas para ser inserida na tabela de disciplinas no bd (o id do curso pertencente já vai inserido no array)
+        Cria e retorna o array de disciplinas para serem inseridas na tabela de disciplinas no bd (o id do curso pertencente já vai inserido no array)
         """
 
         contInue = True
@@ -180,17 +178,11 @@ class Secretario(Usuario):
             creditos = input("Insira os creditos da disciplina: ")
             tipo = input("insira o tipo de disciplina(Optativa/Obrigatoria): ")
             periodo = input("Insira o perido do curso referente a disciplina: ")
-            ano = input("Insira o ano referente a disciplina: ")
-            semestre = input("Insira o semestre referente a disciplina (primeiro: 1 / segundo: 2): ")
-
-            semestre_formatado = f"{ano}/{semestre}"
-
-            print(semestre_formatado)
             
             for prof in professores:
                 print(prof)
             idProf = input("Insira o id do professor: ")
-            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd, "period": periodo, "semestre": semestre_formatado}
+            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd, "period": periodo}
             lista_disciplinas.append(disciplina)
             cont = input("Deseja adicionar mais uma disciplina?(SIM: 1/ NÃO: 0):")
             if cont == "0":

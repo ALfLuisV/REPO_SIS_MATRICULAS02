@@ -10,27 +10,23 @@ def inserir_disciplinas(lista_disciplinas):
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
-
-            # disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd}
-
             lista_disciplinas_length = len(lista_disciplinas)
 
             insert_disciplines_query = '''
-            INSERT INTO discipline (name, credits, type, IdTeacher, IdCourse, period, semestre)
+            INSERT INTO discipline (name, credits, type, IdTeacher, IdCourse, period)
             VALUES
             '''
 
             count = -1
             for disciplina in lista_disciplinas:
-                print(disciplina["semestre"])
                 count += 1
                 if count == lista_disciplinas_length-1:
                     insert_disciplines_query += f'''
-                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}, {disciplina["period"]}, '{disciplina["semestre"]}');
+                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}, {disciplina["period"]});
                     '''
                 else:
                     insert_disciplines_query += f'''
-                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}, {disciplina["period"]}, '{disciplina["semestre"]}'),
+                    ('{disciplina["nome"]}', {disciplina["credit"]}, '{disciplina["tip"]}', {disciplina["prof"]}, {disciplina["id_curso"]}, {disciplina["period"]}),
                     '''
 
 
@@ -111,8 +107,6 @@ def matricular_aluno(lista_disciplinas):
                 WHERE iddiscipline IN ({', '.join(map(str, discipline_ids))});
                 """
             
-
-            # print(insert_disciplines_query)
             cursor.execute(insert_disciplines_query)
             connection.commit()
             ids = cursor.fetchall()
@@ -167,7 +161,6 @@ def get_discipline_type(idd):
             connection.commit()
             id_discipline = cursor.fetchall()
             return id_discipline
-            # print("Matricula(s) excluidas com sucesso!!!")
         except Exception as error:
             print(f"Erro ao buscar disciplinas: {error}")
         finally:

@@ -10,6 +10,12 @@ class Aluno(Usuario):
         self.matricula = matricula
 
     def matricular(self, id_aluno):
+            
+            """
+            Realiza a matricula do aluno, chama um metodo que cria uma lista com as disciplinas matriculadas,
+            depois esta lista é passada como parametro para a função que envia estes dados pro bd, e retorna os ids das matriculas
+            para que estes sejam inseridos como cobrança na tabela charge.
+            """
             lista_cursos = buscar_cursos()
             print("Lista de cursos:")
             print(lista_cursos)
@@ -99,6 +105,10 @@ class Aluno(Usuario):
         return disciplinas
 
     def cancelarMatricula(self, id_aluno):
+        """
+        o metodo busca as disciplinas relacionadas ao aluno, exibe, o usuario insere o id desejado, e este id é passado
+        como parametro junto ao id dp aluno, para o metodo "cancelar_matricula()", onde a matricula e a cobrança são excluidas do bd
+        """
         disciplinas = buscar_disciplinas_por_aluno(id_aluno)
 
         for e in disciplinas:
