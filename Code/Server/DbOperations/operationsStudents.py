@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[1]))
+sys.path.append(str(Path(__file__).parents[2]))
 
 
-from db_connection import connect_to_db
+from Server.db_connection import connect_to_db
 
 # Função para inserir dados na tabela 'alunos'
 def inserir_aluno(nome, email, telefone, senha, sk):

@@ -1,8 +1,18 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parents[3]))
 from datetime import datetime
+
+
+from Server.DbOperations.operationsCourses import buscar_cursos
+from Server.DbOperations.operationsDiscipline import buscar_disciplinas, matricular_aluno, cancelar_matricula, buscar_disciplinas_por_aluno
+from Server.DbOperations.operationsCharges import inserir_cobranca
+
+
+sys.path.append(str(Path(__file__).parents[0]))
+
 from usuario import Usuario
-from operationsCourses import buscar_cursos
-from operationsDiscipline import buscar_disciplinas, matricular_aluno, cancelar_matricula, buscar_disciplinas_por_aluno
-from operationsCharges import inserir_cobranca
+
 
 class Aluno(Usuario):
     def __init__(self, idusuario, nome, telefone, email, matricula):

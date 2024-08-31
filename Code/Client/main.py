@@ -1,7 +1,15 @@
-from aluno import Aluno
-from secretario import Secretario
-from professor import Professor
-from login import Login
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parents[2]))
+
+
+
+
+from Code.Client.Classes.Usuarios.aluno import Aluno
+from Code.Client.Classes.Usuarios.secretario import Secretario
+from Code.Client.Classes.Usuarios.professor import Professor
+from Code.Client.Classes.Usuarios.login import Login
 
 
 sec1 = Secretario(1, "maria","33753729","maria@gmail.com", "manha")

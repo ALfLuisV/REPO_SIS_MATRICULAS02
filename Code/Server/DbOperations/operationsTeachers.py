@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[1]))
+sys.path.append(str(Path(__file__).parents[2]))
 
 
-from db_connection import connect_to_db
+from Server.db_connection import connect_to_db
 
 
 def inserir_prof(nome, email, telefone, senha, sk,  cargaH, salario):

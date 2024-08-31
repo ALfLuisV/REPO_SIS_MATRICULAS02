@@ -1,19 +1,29 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[3]))
+
+sys.path.append(str(Path(__file__).parents[4]))
+
 import bcrypt
 import random
-from operationsStudents import inserir_aluno, buscar_alunos
-from operationsTeachers import inserir_prof, buscar_profs 
-from operationsSecretary import inserir_secretario, buscar_secretarios
-from operationsCourses import inserir_curso, buscar_cursos
-from operationsDiscipline import inserir_disciplinas, buscar_disciplinas, cancelamento_disciplina, reiniciar_disciplina
-from operationsAdress import inserir_endereco, buscar_endereco
-from professor import Professor
-from aluno import Aluno
-from usuario import Usuario
-from curso import Curso
-from endereco import Endereco
+
+from Code.Server.DbOperations.operationsStudents import inserir_aluno, buscar_alunos
+from Code.Server.DbOperations.operationsTeachers import inserir_prof, buscar_profs 
+from Code.Server.DbOperations.operationsSecretary import inserir_secretario, buscar_secretarios
+from Code.Server.DbOperations.operationsCourses import inserir_curso, buscar_cursos
+from Code.Server.DbOperations.operationsDiscipline import inserir_disciplinas, buscar_disciplinas, cancelamento_disciplina, reiniciar_disciplina
+from Code.Server.DbOperations.operationsAdress import inserir_endereco, buscar_endereco
+
+
+
+
+
+# sys.path.append(str(Path(__file__).parents[0]))
+
+from Code.Client.Classes.Usuarios.professor import Professor
+from Code.Client.Classes.Usuarios.aluno import Aluno
+from Code.Client.Classes.Usuarios.usuario import Usuario
+from Code.Client.Classes.Cursos.curso import Curso
+from Code.Client.Classes.Usuarios.endereco import Endereco
 
 class Secretario(Usuario):
     """

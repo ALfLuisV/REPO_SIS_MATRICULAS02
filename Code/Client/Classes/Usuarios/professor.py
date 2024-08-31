@@ -1,6 +1,12 @@
-from usuario import Usuario
-from operationsTeachers import buscar_disciplinas, buscar_alunos_disciplina, buscar_cursos
-# from Code.Client.Classes.usuario import Usuario
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parents[4]))
+
+from Code.Server.DbOperations.operationsTeachers import buscar_disciplinas, buscar_alunos_disciplina, buscar_cursos
+
+
+from Code.Client.Classes.Usuarios.usuario import Usuario
 
 class Professor(Usuario):
     

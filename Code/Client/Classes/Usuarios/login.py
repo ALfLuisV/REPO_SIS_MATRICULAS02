@@ -1,8 +1,9 @@
 import bcrypt
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parents[1]))
-from operationsUsers import logar_sistema
+sys.path.append(str(Path(__file__).parents[4]))
+
+from Code.Server.DbOperations.operationsUsers import logar_sistema
 
 class Login():
 
