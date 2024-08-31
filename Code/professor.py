@@ -1,5 +1,5 @@
 from usuario import Usuario
-from operationsTeachers import buscar_disciplinas, buscar_alunos_disciplina
+from operationsTeachers import buscar_disciplinas, buscar_alunos_disciplina, buscar_cursos
 # from Code.Client.Classes.usuario import Usuario
 
 class Professor(Usuario):
@@ -11,8 +11,15 @@ class Professor(Usuario):
         self.salario = salario
 
     def visualizaralunos(self, idd):
-            
-        disciplinas = buscar_disciplinas(idd)
+
+        cursos = buscar_cursos(idd)
+
+        # for const in cursos:
+        print(cursos)  
+
+        id_disciplina = input("Insira o id do curso selecionado: ")
+
+        disciplinas = buscar_disciplinas(idd, id_disciplina)
         for const in disciplinas:
             print(const)
 

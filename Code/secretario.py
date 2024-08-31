@@ -4,10 +4,10 @@ sys.path.append(str(Path(__file__).parents[3]))
 import bcrypt
 import random
 from operationsStudents import inserir_aluno, buscar_alunos
-from operationsTeachers import inserir_prof, buscar_profs
+from operationsTeachers import inserir_prof, buscar_profs 
 from operationsSecretary import inserir_secretario, buscar_secretarios
 from operationsCourses import inserir_curso, buscar_cursos
-from operationsDiscipline import inserir_disciplinas, buscar_disciplinas
+from operationsDiscipline import inserir_disciplinas, buscar_disciplinas, cancelamento_disciplina, reiniciar_disciplina
 from operationsAdress import inserir_endereco, buscar_endereco
 from professor import Professor
 from aluno import Aluno
@@ -48,18 +48,32 @@ class Secretario(Usuario):
                     break
             password += chr(number)
         return password
-    
-    def gerar_saltkey(self):
-     """essa porra aqui é inutil (achei q ia precisar)"""
-
-     alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-     return "".join(random.choice(alphabet) for i in range(64))
          
 
     def gerarcurriculo(self):
         """
-        gera o curriculo
+        
+        primeiro,realiza a verificação de turmas com < 3 alunos e seta o status para cancelado
+        
+        verifica as turmas que estão cheias, altera o status pra ativa e zera o numero de alunos
+
+        exibe todas as ativas no curriculo
         """
+
+
+        cancelamento_disciplina()
+        reiniciar_disciplina()
+
+        cursos = buscar_cursos()
+        for curso in cursos:
+            print(curso)
+
+        id_curso = input("insira o id do curso desejado: ")
+
+        disciplinas = buscar_disciplinas(id_curso)
+
+        print(disciplinas)
+
         print("em breve")
 
     def cadastrar_aluno(self):
@@ -166,11 +180,17 @@ class Secretario(Usuario):
             creditos = input("Insira os creditos da disciplina: ")
             tipo = input("insira o tipo de disciplina(Optativa/Obrigatoria): ")
             periodo = input("Insira o perido do curso referente a disciplina: ")
+            ano = input("Insira o ano referente a disciplina: ")
+            semestre = input("Insira o semestre referente a disciplina (primeiro: 1 / segundo: 2): ")
+
+            semestre_formatado = f"{ano}/{semestre}"
+
+            print(semestre_formatado)
             
             for prof in professores:
                 print(prof)
             idProf = input("Insira o id do professor: ")
-            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd, "period": periodo}
+            disciplina = {"nome": name, "credit": creditos, "tip": tipo, "prof": idProf, "id_curso": idd, "period": periodo, "semestre": semestre_formatado}
             lista_disciplinas.append(disciplina)
             cont = input("Deseja adicionar mais uma disciplina?(SIM: 1/ NÃO: 0):")
             if cont == "0":

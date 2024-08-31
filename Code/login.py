@@ -21,5 +21,7 @@ class Login():
         # Verificar a senha
         if bcrypt.checkpw(senha.encode('utf-8'), senha_hash_bytes):
             print("Senha correta!")
+            return usuario #retorna os dados o usuario
         else:
             print("Senha incorreta!")
+            return None

@@ -1,2 +1,3 @@
 
-                    print(obrigatorias)
+
+prof.visualizaralunos(22)

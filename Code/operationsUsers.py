@@ -5,8 +5,11 @@ sys.path.append(str(Path(__file__).parents[1]))
 
 from db_connection import connect_to_db
 
-# Função para inserir dados na tabela 'alunos'
+
 def logar_sistema(email):
+
+    """metodo responsavel por buscar os dados do login do aluno"""
+
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:

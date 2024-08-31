@@ -35,7 +35,7 @@ def inserir_prof(nome, email, telefone, senha, sk,  cargaH, salario):
             cursor.close()
             connection.close()
 
-# Função para buscar todos os alunos
+# Função para buscar todos os professores
 def buscar_profs():
     connection, cursor = connect_to_db()
     if connection and cursor:
@@ -62,32 +62,52 @@ def buscar_profs():
             cursor.close()
             connection.close()
 
-def buscar_disciplinas(idd):
+def buscar_cursos(idd):
+
+    """
+    Faz a busca de cursos em que  o professor do id fornecido possui disciplinas que da aula, retorna a lista desses cursos
+    """
+
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
             buscar_query = '''
-            SELECT 
-    d.iddiscipline, 
-    d.name AS discipline_name, 
-    d.credits, 
-    d.idcourse, 
-    d.type,
-    c.name AS course_name, 
-    t.idteacher 
+                SELECT DISTINCT 
+    c.idcourse, 
+    c.name
 FROM 
-    discipline d
+    course c
 JOIN 
-    course c ON d.idcourse = c.idcourse
-JOIN 
-    teacher t ON d.idteacher = t.idteacher
+    discipline d ON c.idcourse = d.idcourse
 WHERE 
-    t.idteacher = %s; 
+    d.idteacher = %s;
+
+                '''
+            cursor.execute(buscar_query, (idd,))
+            cursos = cursor.fetchall()
+            return cursos
+        except Exception as error:
+            print(f"Erro ao buscar cursos: {error}")
+        finally:
+            cursor.close()
+            connection.close()
+
+
+def buscar_disciplinas(idd, id_curso):
+    """
+    faz buscas em disciplinas utilizando o id do professor e o id do curso préviamente selecionado
+    """
+
+    connection, cursor = connect_to_db()
+    if connection and cursor:
+        try:
+            buscar_query = '''
+            SELECT iddiscipline, name, type, period FROM discipline WHERE idteacher = %s AND idcourse = %s; 
 
             '''
-            cursor.execute(buscar_query, (idd,))
-            profs = cursor.fetchall()
-            return profs
+            cursor.execute(buscar_query, (idd, id_curso))
+            discipline = cursor.fetchall()
+            return discipline
         except Exception as error:
             print(f"Erro ao buscar disciplinas: {error}")
         finally:
@@ -95,13 +115,17 @@ WHERE
             connection.close()
 
 def buscar_alunos_disciplina(id_disciplina):
+
+    """busca alunos de uma disciplina especifica"""
+    
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
             buscar_query = '''
-            SELECT 
+SELECT 
     u.name, 
-    u.email
+    u.email,
+    s.registration
 FROM 
     registration r
 JOIN 
@@ -110,6 +134,7 @@ JOIN
     users u ON s.idstudent = u.idusuario
 WHERE 
     r.iddiscipline = %s;
+
 
             '''
             cursor.execute(buscar_query, (id_disciplina,))

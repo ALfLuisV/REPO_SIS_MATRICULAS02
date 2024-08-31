@@ -2,7 +2,7 @@ from datetime import datetime
 from usuario import Usuario
 from operationsCourses import buscar_cursos
 from operationsDiscipline import buscar_disciplinas, matricular_aluno, cancelar_matricula, buscar_disciplinas_por_aluno
-
+from operationsCharges import inserir_cobranca
 
 class Aluno(Usuario):
     def __init__(self, idusuario, nome, telefone, email, matricula):
@@ -19,7 +19,11 @@ class Aluno(Usuario):
             print(disciplinas) 
 
             lista = self.criar_lista_matricula(id_aluno, disciplinas)
-            matricular_aluno(lista)
+            ids = matricular_aluno(lista)
+
+
+            #gerar as cobranças
+            inserir_cobranca(lista, ids, id_aluno)
 
     def criar_lista_matricula(self, id_aluno, disciplinas):
                 """
