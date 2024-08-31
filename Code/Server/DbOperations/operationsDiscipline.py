@@ -6,6 +6,8 @@ sys.path.append(str(Path(__file__).parents[2]))
 from Server.db_connection import connect_to_db
 
 
+
+
 def inserir_disciplinas(lista_disciplinas):
     connection, cursor = connect_to_db()
     if connection and cursor:
