@@ -64,18 +64,24 @@ def buscar_disciplinas_por_aluno(idd):
     if connection and cursor:
         try:
             buscar_query = '''
-            SELECT
+            SELECT 
     d.name AS disciplina,
     d.type AS tipo,
-    d.period AS periodo
+    d.period AS periodo,
+    c.name AS curso
 FROM 
     registration r
 JOIN 
     discipline d 
 ON 
     r.iddiscipline = d.iddiscipline
+JOIN 
+    course c 
+ON 
+    d.idcourse = c.idcourse
 WHERE 
     r.idstudent = %s;
+
     '''
             cursor.execute(buscar_query, (idd,))
             disciplinas = cursor.fetchall()
