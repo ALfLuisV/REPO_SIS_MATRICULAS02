@@ -1,5 +1,8 @@
 import customtkinter as ctk
 from PIL import Image
+from Classes.Usuarios.login import Login
+from Classes.Usuarios.secretario import Secretario
+
 
 imgLoginPIL = Image.open("Code/assets/Login-amico.png")
 imgLogin = ctk.CTkImage(light_image=imgLoginPIL, size=(300, 500))
@@ -55,21 +58,40 @@ class Main:
         imgTelaLogin.pack(expand=True, side="left")
         
         titulo = ctk.CTkLabel(master=login_frame, text=f"Bem Vindo, {usuario_tipo}!", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(50, 15), padx=(25, 0))
-        
         subTitulo = ctk.CTkLabel(master=login_frame, text="Por Favor Insira Suas Credenciais De Acesso", text_color="#fff", anchor="w", justify="left", font=("Arial Bold", 14)).pack(anchor="w", padx=(25, 0))
         
+        self.email_var = ctk.StringVar()
         emailLabel = ctk.CTkLabel(master=login_frame, text="  Email:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(38, 0), padx=(25, 0))
-        
-        emailInput = ctk.CTkEntry(master=login_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+        emailInput = ctk.CTkEntry(master=login_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30, textvariable=self.email_var).pack(anchor="w", padx=(25, 0))
 
+        self.senha_var = ctk.StringVar()
         senhaLabel = ctk.CTkLabel(master=login_frame, text="  Password:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(21, 0), padx=(25, 0))
-        
-        senhaInput = ctk.CTkEntry(master=login_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", show="*", corner_radius=30).pack(anchor="w", padx=(25, 0))
+        senhaInput = ctk.CTkEntry(master=login_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", show="*", corner_radius=30, textvariable=self.senha_var).pack(anchor="w", padx=(25, 0))
 
-        btnLogin = ctk.CTkButton(master=login_frame, text="Login", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 18), text_color="#ffffff", width=300, height=50, command=lambda: self.ProximaTela(usuario_tipo), corner_radius=30).pack(anchor="w", pady=(50, 0), padx=(25, 0))
-        
+        btnLogin = ctk.CTkButton(master=login_frame, text="Login", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 18), text_color="#ffffff", width=300, height=50, command=lambda: self.logar(usuario_tipo), corner_radius=30).pack(anchor="w", pady=(50, 0), padx=(25, 0))
         btnVoltar = ctk.CTkButton(master=login_frame, text="Voltar", command=self.TelaSelecao, fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), text_color="#ffffff", width=50, height=30, corner_radius=30).pack(anchor="w", pady=(30, 0), padx=(255, 0))
 
+    
+    def logar(self, usuario_tipo):
+        email = self.email_var.get()
+        senha = self.senha_var.get()
+
+        login_obj = Login()
+        usuario = login_obj.logar_sistema(email, senha)
+
+        if usuario:
+            print(f"Login realizado com sucesso para {usuario_tipo}")
+            if usuario_tipo == "Secretario(a)":
+                self.TelaSecretaria()
+            elif usuario_tipo == "Aluno(a)":
+                self.TelaAluno()
+            elif usuario_tipo == "Professor(a)":
+                self.TelaProfessor()
+        else:
+            print("Email ou senha incorretos!")
+            # Aqui você pode adicionar uma notificação na UI para informar o usuário do erro
+    
+    
     def TelaLoginSecretaria(self):
         self.TelaLogin("Secretario(a)")
 
@@ -200,6 +222,9 @@ class Main:
         elif usuario_tipo == "Professor(a)":
             self.TelaProfessor()
 
+
+# instanciar secretario sec1
+# sec1 = Secretario(32, "Davi", "31999999999", "davi@gmail.com", "Manhã")
+# sec1.cadastrar_aluno()
+
 Main()
-
-

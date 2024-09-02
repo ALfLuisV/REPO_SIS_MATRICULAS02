@@ -82,7 +82,7 @@ class Secretario(Usuario):
 
         disciplinas.sort(key=lambda x: x[6])
 
-        print(disciplinas)#ordenar este array
+        print(disciplinas) #ordenar este array
 
     def cadastrar_aluno(self):
         """

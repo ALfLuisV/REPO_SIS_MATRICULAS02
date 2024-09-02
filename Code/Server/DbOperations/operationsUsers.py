@@ -27,4 +27,3 @@ def logar_sistema(email):
         finally:
             cursor.close()
             connection.close()
-
