@@ -63,7 +63,20 @@ def buscar_disciplinas_por_aluno(idd):
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
-            buscar_query = "SELECT * FROM registration WHERE idstudent = %s;"
+            buscar_query = '''
+            SELECT
+    d.name AS disciplina,
+    d.type AS tipo,
+    d.period AS periodo
+FROM 
+    registration r
+JOIN 
+    discipline d 
+ON 
+    r.iddiscipline = d.iddiscipline
+WHERE 
+    r.idstudent = %s;
+    '''
             cursor.execute(buscar_query, (idd,))
             disciplinas = cursor.fetchall()
             return disciplinas
@@ -72,6 +85,9 @@ def buscar_disciplinas_por_aluno(idd):
         finally:
             cursor.close()
             connection.close()
+
+
+
 
 def matricular_aluno(lista_disciplinas):
     connection, cursor = connect_to_db()

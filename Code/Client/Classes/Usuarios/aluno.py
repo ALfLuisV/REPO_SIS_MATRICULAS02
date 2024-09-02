@@ -131,3 +131,9 @@ class Aluno(Usuario):
 
 
         print("Matricula cancelada!!")
+
+    def buscar_matriculas_aluno(self, idd):
+         
+         disciplinas = buscar_disciplinas_por_aluno(idd)
+
+         print(disciplinas)
