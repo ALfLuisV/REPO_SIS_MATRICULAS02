@@ -2,6 +2,8 @@ import customtkinter as ctk
 from PIL import Image
 from Classes.Usuarios.login import Login
 from Classes.Usuarios.secretario import Secretario
+from Server.DbOperations.operationsDiscipline import buscar_disciplinas_por_aluno
+
 
 
 imgLoginPIL = Image.open("Code/assets/Login-amico.png")
@@ -12,6 +14,7 @@ app = ctk.CTk()
 class Main:
     def __init__(self):
         self.app = app
+        self.idusuario = None  # Inicialize a variável aqui
         self.tela()
         self.TelaSelecao()
         app.mainloop()
@@ -78,12 +81,14 @@ class Main:
 
         login_obj = Login()
         usuario = login_obj.logar_sistema(email, senha)
+        print(usuario)
 
         if usuario:
             print(f"Login realizado com sucesso para {usuario_tipo}")
             if usuario_tipo == "Secretario(a)":
                 self.TelaSecretaria()
             elif usuario_tipo == "Aluno(a)":
+                self.idusuario = usuario[0]  # Assumindo que o idusuario é o primeiro elemento da tupla
                 self.TelaAluno()
             elif usuario_tipo == "Professor(a)":
                 self.TelaProfessor()
@@ -170,14 +175,13 @@ class Main:
 
         
     def TelaAluno(self):
-        # Esconde todos os frames atuais
+    # Esconde todos os frames atuais
         for widget in app.winfo_children():
-            # widget.destroy()
             widget.pack_forget()
             widget.place_forget()
             widget.grid_forget()
         
-        #Frame
+        # Frame
         alunoDisciplinas_frame = ctk.CTkScrollableFrame(master=app, width=150, height=500)
         alunoDisciplinas_frame.pack(expand=True, side="right", fill="both", padx=(20, 20), pady=(20, 20))
         
@@ -186,6 +190,19 @@ class Main:
         
         titulo1 = ctk.CTkLabel(master=alunoDisciplinas_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20)
         titulo2 = ctk.CTkLabel(master=alunoMatriculas_frame, text="Minhas Matriculas", font=("Arial Bold", 20)).pack(pady=20)
+        
+        # Buscar as disciplinas do aluno logado
+        disciplinas = buscar_disciplinas_por_aluno(self.idusuario)
+        
+        for disciplina in disciplinas:
+            disciplina_label = ctk.CTkLabel(
+                master=alunoDisciplinas_frame, 
+                text=f"{disciplina[0]} - {disciplina[1]} - {disciplina[2]} ({disciplina[3]})", 
+                font=("Arial", 14)
+            )
+            disciplina_label.pack(pady=5)
+
+
         
     def TelaProfessor(self):
         # Esconde todos os frames atuais
