@@ -28,11 +28,13 @@ class Aluno(Usuario):
             """
             lista_cursos = buscar_cursos()
             print("Lista de cursos:")
-            print(lista_cursos)
+            for e in lista_cursos:
+                 print(e)
             idd = input("insira o codigo do curso desejado: ")
             disciplinas = buscar_disciplinas(idd)
             print("Lista de disciplinas do curso selecionado:")
-            print(disciplinas) 
+            for h in disciplinas:
+                 print(h)
 
             lista = self.criar_lista_matricula(id_aluno, disciplinas)
             ids = matricular_aluno(lista)
@@ -136,4 +138,5 @@ class Aluno(Usuario):
          
          disciplinas = buscar_disciplinas_por_aluno(idd)
 
-         print(disciplinas)
+         for e in disciplinas:
+             print(e)

@@ -25,4 +25,4 @@ class Login():
             return usuario #retorna os dados o usuario
         else:
             print("Senha incorreta!")
-            return None
+            return False

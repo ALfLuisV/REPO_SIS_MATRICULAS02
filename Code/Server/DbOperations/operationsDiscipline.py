@@ -65,6 +65,7 @@ def buscar_disciplinas_por_aluno(idd):
         try:
             buscar_query = '''
             SELECT 
+    d.iddiscipline,     
     d.name AS disciplina,
     d.type AS tipo,
     d.period AS periodo,
@@ -81,6 +82,7 @@ ON
     d.idcourse = c.idcourse
 WHERE 
     r.idstudent = %s;
+
 
     '''
             cursor.execute(buscar_query, (idd,))
@@ -140,9 +142,8 @@ def matricular_aluno(lista_disciplinas):
             connection.commit()
 
             verificar_lotacão()
-
-            print(lista_disciplinas)
-            print(ids)
+            for e in lista_disciplinas:
+                print(e)
             print("Matricula realizada com sucesso!!!!")
             return ids
         except Exception as error:

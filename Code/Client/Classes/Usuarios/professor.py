@@ -27,7 +27,8 @@ class Professor(Usuario):
 
         cursos = buscar_cursos(idd)
 
-        print(cursos)  
+        for e in cursos:
+            print(e)  
 
         id_disciplina = input("Insira o id do curso selecionado: ")
 
