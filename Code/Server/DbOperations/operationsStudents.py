@@ -40,9 +40,57 @@ def buscar_alunos():
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
-            buscar_query = "SELECT * FROM Student;"
+            buscar_query = '''
+SELECT s.idstudent, u.name
+FROM student s
+JOIN users u ON s.idstudent = u.idusuario;
+
+'''
             cursor.execute(buscar_query)
             alunos = cursor.fetchall()
+            return alunos
+            # for aluno in alunos:
+            #     print(aluno)
+        except Exception as error:
+            print(f"Erro ao buscar alunos: {error}")
+        finally:
+            cursor.close()
+            connection.close()
+
+def excluir_aluno():
+    connection, cursor = connect_to_db()
+    if connection and cursor:
+        try:
+            alunos = buscar_alunos()
+
+            for e in alunos:
+                print(e)
+
+
+            id_aluno = input("Digite o id do aluno a ser excluido")
+
+            delete_queryD = "DELETE FROM address WHERE idusuario = %s;"
+            cursor.execute(delete_queryD, (id_aluno,))
+            connection.commit()
+
+            delete_queryB = "DELETE FROM charge WHERE idstudent = %s;"
+            cursor.execute(delete_queryB, (id_aluno,))
+            connection.commit()
+
+            delete_queryA = "DELETE FROM registration WHERE idstudent = %s;"
+            cursor.execute(delete_queryA, (id_aluno,))
+            connection.commit()
+
+            delete_query = "DELETE FROM student WHERE idstudent = %s;"
+            cursor.execute(delete_query, (id_aluno,))
+            connection.commit()
+
+            delete_queryC = "DELETE FROM users WHERE idusuario = %s;"
+            cursor.execute(delete_queryC, (id_aluno,))
+            connection.commit()
+
+
+            print("Aluno foi excluido com sucesso!!!")
             return alunos
             # for aluno in alunos:
             #     print(aluno)

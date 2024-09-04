@@ -13,6 +13,9 @@ from Classes.Usuarios.professor import Professor
 
 from Server.DbOperations.operationsDiscipline import buscar_disciplinas_por_aluno
 from Code.Server.DbOperations.operationsTeachers import buscar_disciplinas, buscar_alunos_disciplina, buscar_cursos
+from Code.Server.DbOperations.operationsStudents import excluir_aluno
+
+
 
 import os
 
@@ -37,7 +40,7 @@ while True:  # Loop principal do programa
             sec1 = Secretario(1, "x", "x", "x", "x")
             while True:  # Loop do menu do secretário
                 limpar_tela()  # Limpa a tela antes de mostrar o menu de opções do secretário
-                print("MENU DE OPÇÕES:\n1-Cadastrar Curso\n2-Cadastrar disciplina\n3-Cadastrar Usuário\n4-Gerar Currículo\n5-Logout")
+                print("MENU DE OPÇÕES:\n1-Cadastrar Curso\n2-Cadastrar disciplina\n3-Cadastrar Usuário\n4-Gerar Currículo\n5-Excluir aluno\n6-Logout")
                 opcao = input("Insira o número da opção desejada: ")
 
                 if opcao == '1':
@@ -58,6 +61,8 @@ while True:  # Loop principal do programa
                 elif opcao == '4':
                     sec1.gerarcurriculo()
                 elif opcao == '5':
+                    excluir_aluno()
+                elif opcao == '6':
                     break  # Sai do menu do secretário e volta ao login principal
                 else:
                     print("Opção inválida!")
