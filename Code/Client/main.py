@@ -154,7 +154,7 @@ class Main:
         ctk.CTkLabel(master=gerencia_alunos_frame, text="Gerenciamento de Alunos", font=("Arial Bold", 20)).pack()
 
         # Botões para Gerenciamento de Disciplinas
-        btnGerenciaDisciplinaCadastro = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_formulario("Disciplinas"))
+        btnGerenciaDisciplinaCadastro = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command= self.TelaCadastroDisciplina)
         btnGerenciaDisciplinaListagem = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Listagem", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_listagem("Disciplinas"))
         btnGerarCurriculo = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Gerar Currículo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=self.GerarCurriculo)
         btnGerenciaDisciplinaCadastro.pack(pady=(15, 5))
@@ -162,13 +162,13 @@ class Main:
         btnGerarCurriculo.pack(pady=(5, 5))
         
         # Botões para Gerenciamento de Professores
-        btnGerenciaProfessorCadastro = ctk.CTkButton(master=gerencia_professores_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_formulario("Professores"))
+        btnGerenciaProfessorCadastro = ctk.CTkButton(master=gerencia_professores_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command= self.TelaCadastroProfessor)
         btnGerenciaProfessorListagem = ctk.CTkButton(master=gerencia_professores_frame, text="Listagem", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_listagem("Professores"))
         btnGerenciaProfessorCadastro.pack(pady=(15, 5))
         btnGerenciaProfessorListagem.pack(pady=(5, 15))
         
         # Botões para Gerenciamento de Alunos
-        btnGerenciaAlunoCadastro = ctk.CTkButton(master=gerencia_alunos_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_formulario("Alunos"))
+        btnGerenciaAlunoCadastro = ctk.CTkButton(master=gerencia_alunos_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command= self.TelaCadastroAluno)
         btnGerenciaAlunoListagem = ctk.CTkButton(master=gerencia_alunos_frame, text="Listagem", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_listagem("Alunos"))
         btnGerenciaAlunoCadastro.pack(pady=(15, 5))
         btnGerenciaAlunoListagem.pack(pady=(5, 15))
@@ -178,80 +178,120 @@ class Main:
         
         ctk.CTkLabel(master=gerencia_conteudo_frame, text="Tenha Um Bom Dia !!", font=("Arial Bold", 20)).pack(pady=50)
         ctk.CTkLabel(master=gerencia_conteudo_frame, text="😊", font=("Arial Bold", 50)).pack(pady=50)
+    
+    
+    def TelaCadastroAluno(self):
         
-        def mostrar_formulario(tipo):
-            # Esconder os frames de gerenciamento e mostrar o formulário correspondente
-            if tipo == "Disciplinas":
-                gerencia_professores_frame.grid_forget()
-                gerencia_alunos_frame.grid_forget()
-                gerencia_disciplinas_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
-            elif tipo == "Professores":
-                gerencia_disciplinas_frame.grid_forget()
-                gerencia_alunos_frame.grid_forget()
-                gerencia_professores_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
-            elif tipo == "Alunos":
-                gerencia_disciplinas_frame.grid_forget()
-                gerencia_professores_frame.grid_forget()
-                gerencia_alunos_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
-                TelaCadastroAluno()
-            
-        def mostrar_listagem(tipo):
-            # Esconder os frames de gerenciamento e mostrar a listagem correspondente
-            if tipo == "Disciplinas":
-                gerencia_professores_frame.grid_forget()
-                gerencia_alunos_frame.grid_forget()
-                gerencia_disciplinas_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
-            if tipo == "Professores":
-                gerencia_disciplinas_frame.grid_forget()
-                gerencia_alunos_frame.grid_forget()
-                gerencia_professores_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
-            if tipo == "Alunos":
-                gerencia_disciplinas_frame.grid_forget()
-                gerencia_professores_frame.grid_forget()
-                gerencia_alunos_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
-                        
-            
-        def TelaCadastroAluno():
-            
-            #Frame
-            gerencia_conteudo_frame = ctk.CTkFrame(master=gerencia_frame, border_width=2, border_color="#601E88", corner_radius=30)
-            gerencia_conteudo_frame.grid(row=0, column=1, rowspan=3, sticky="nsew")
+        # Esconde todos os frames atuais
+        for widget in app.winfo_children():
+            # widget.destroy()
+            widget.pack_forget()
+            widget.place_forget()
+            widget.grid_forget()
+        
+        # Frame para o Cadastro
+        cadastro_frame = ctk.CTkFrame(master=app, width=300, height=500)
+        cadastro_frame.pack(expand=True, side="right", fill="both")
+        
+        imgTelaLogin = ctk.CTkLabel(master=app, text="" ,image=imgLogin)
+        imgTelaLogin.pack(expand=True, side="left")
+        
+        titulo = ctk.CTkLabel(master=cadastro_frame, text=f"Cadastrar Novo Aluno", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(20, 15), padx=(25, 0))
+        
+        subTitulo = ctk.CTkLabel(master=cadastro_frame, text="Por Favor Preencha Os Campos", text_color="#fff", anchor="w", justify="left", font=("Arial Bold", 14)).pack(anchor="w", padx=(25, 0))
+        
+        nomeLabel = ctk.CTkLabel(master=cadastro_frame, text="  Nome:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        
+        nomeInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
 
-            # Adicionar título
-            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Cadastro de Aluno", font=("Arial Bold", 20)).pack(pady=20)
+        emailLabel = ctk.CTkLabel(master=cadastro_frame, text="  Email:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        
+        emailInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
 
-            # Campo de entrada para Nome
-            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Nome:", font=("Arial", 14)).pack(pady=(10, 0))
-            nome_entry = ctk.CTkEntry(master=gerencia_conteudo_frame, width=250, height=30, corner_radius=10)
-            nome_entry.pack(pady=(5, 20))
+        telLabel = ctk.CTkLabel(master=cadastro_frame, text="  Telefone:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        
+        telInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+        
+        btnCadastro = ctk.CTkButton(master=cadastro_frame, text="Cadastrar", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 18), text_color="#ffffff", width=300, height=50, command= self.TelaSecretaria, corner_radius=30).pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        
+        btnVoltar = ctk.CTkButton(master=cadastro_frame, text="Voltar", command=self.TelaSecretaria, fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), text_color="#ffffff", width=50, height=30, corner_radius=30).pack(anchor="w", pady=(20, 0), padx=(255, 0))
 
-            # Campo de entrada para Idade
-            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Idade:", font=("Arial", 14)).pack(pady=(10, 0))
-            idade_entry = ctk.CTkEntry(master=gerencia_conteudo_frame, width=100, height=30, corner_radius=10)
-            idade_entry.pack(pady=(5, 20))
-
-            # Campo de entrada para Curso
-            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Curso:", font=("Arial", 14)).pack(pady=(10, 0))
-            curso_entry = ctk.CTkEntry(master=gerencia_conteudo_frame, width=250, height=30, corner_radius=10)
-            curso_entry.pack(pady=(5, 20))
-
-            # Botão de salvar
-            btnSalvar = ctk.CTkButton(master=gerencia_conteudo_frame, text="Salvar", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=100, height=30, corner_radius=30, command=lambda: salvar_aluno(nome_entry.get(), idade_entry.get(), curso_entry.get()))
-            btnSalvar.pack(pady=10, padx=10, side="left")
-
-            # Botão de voltar
-            btnVoltar = ctk.CTkButton(master=gerencia_conteudo_frame, text="Voltar", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), width=100, height=30, corner_radius=30, command=self.TelaSecretaria)
-            btnVoltar.pack(pady=10, padx=10, side="right")
-
-        def salvar_aluno(nome, idade, curso):
-            # Aqui você pode implementar a lógica para salvar os dados do aluno
-            print(f"Aluno cadastrado: Nome={nome}, Idade={idade}, Curso={curso}")
+    def salvar_aluno(self, nome, idade, curso):
+        # Aqui você pode implementar a lógica para salvar os dados do aluno
+        print(f"Aluno cadastrado: Nome={nome}, Idade={idade}, Curso={curso}")
         
     def TelaCadastroProfessor(self):
-        pass
-    
+        
+        # Esconde todos os frames atuais
+        for widget in app.winfo_children():
+            # widget.destroy()
+            widget.pack_forget()
+            widget.place_forget()
+            widget.grid_forget()
+        
+        # Frame para o Cadastro
+        cadastro_frame = ctk.CTkFrame(master=app, width=300, height=500)
+        cadastro_frame.pack(expand=True, side="right", fill="both")
+        
+        imgTelaLogin = ctk.CTkLabel(master=app, text="" ,image=imgLogin)
+        imgTelaLogin.pack(expand=True, side="left")
+        
+        titulo = ctk.CTkLabel(master=cadastro_frame, text=f"Cadastrar Novo Professor", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(20, 15), padx=(25, 0))
+        
+        subTitulo = ctk.CTkLabel(master=cadastro_frame, text="Por Favor Preencha Os Campos", text_color="#fff", anchor="w", justify="left", font=("Arial Bold", 14)).pack(anchor="w", padx=(25, 0))
+        
+        nomeLabel = ctk.CTkLabel(master=cadastro_frame, text="  Nome:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(10, 0), padx=(25, 0))
+        
+        nomeInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=30, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+
+        emailLabel = ctk.CTkLabel(master=cadastro_frame, text="  Email:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(10, 0), padx=(25, 0))
+        
+        emailInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=30, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+
+        telLabel = ctk.CTkLabel(master=cadastro_frame, text="  Telefone:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(10, 0), padx=(25, 0))
+        
+        telInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=30, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+        
+        salarioLabel = ctk.CTkLabel(master=cadastro_frame, text="  Salário:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(10, 0), padx=(25, 0))
+        
+        salarioInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=30, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+        
+        
+        btnCadastro = ctk.CTkButton(master=cadastro_frame, text="Cadastrar", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 18), text_color="#ffffff", width=300, height=50, command= self.TelaSecretaria, corner_radius=30).pack(anchor="w", pady=(10, 0), padx=(25, 0))
+        
+        btnVoltar = ctk.CTkButton(master=cadastro_frame, text="Voltar", command=self.TelaSecretaria, fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), text_color="#ffffff", width=50, height=30, corner_radius=30).pack(anchor="w", pady=(10, 0), padx=(255, 0))
+
     def TelaCadastroDisciplina(self):
-        pass
+        
+        # Esconde todos os frames atuais
+        for widget in app.winfo_children():
+            # widget.destroy()
+            widget.pack_forget()
+            widget.place_forget()
+            widget.grid_forget()
+        
+        # Frame para o Cadastro
+        cadastro_frame = ctk.CTkFrame(master=app, width=300, height=500)
+        cadastro_frame.pack(expand=True, side="right", fill="both")
+        
+        imgTelaLogin = ctk.CTkLabel(master=app, text="" ,image=imgLogin)
+        imgTelaLogin.pack(expand=True, side="left")
+        
+        titulo = ctk.CTkLabel(master=cadastro_frame, text=f"Cadastrar Nova Disciplina", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 24)).pack(anchor="w", pady=(20, 15), padx=(25, 0))
+        
+        subTitulo = ctk.CTkLabel(master=cadastro_frame, text="Por Favor Preencha Os Campos", text_color="#fff", anchor="w", justify="left", font=("Arial Bold", 14)).pack(anchor="w", padx=(25, 0))
+        
+        nomeLabel = ctk.CTkLabel(master=cadastro_frame, text="  Nome:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        
+        nomeInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+
+        periodoLabel = ctk.CTkLabel(master=cadastro_frame, text="  Periodo:", text_color="#601E88", anchor="w", justify="left", font=("Arial Bold", 14), compound="left").pack(anchor="w", pady=(20, 0), padx=(25, 0))
+        
+        periodoInput = ctk.CTkEntry(master=cadastro_frame, width=300, height=40, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=30).pack(anchor="w", padx=(25, 0))
+        
+        btnCadastro = ctk.CTkButton(master=cadastro_frame, text="Cadastrar", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 18), text_color="#ffffff", width=300, height=50, command= self.TelaSecretaria, corner_radius=30).pack(anchor="w", pady=(50, 0), padx=(25, 0))
+        
+        btnVoltar = ctk.CTkButton(master=cadastro_frame, text="Voltar", command=self.TelaSecretaria, fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), text_color="#ffffff", width=50, height=30, corner_radius=30).pack(anchor="w", pady=(20, 0), padx=(255, 0))
     
     def ExcluirDisciplina(self):
         pass
