@@ -5,8 +5,8 @@ sys.path.append(str(Path(__file__).parents[2]))
 
 from Server.db_connection import connect_to_db
 
-# Função para inserir dados na tabela 'alunos'
-def inserir_aluno(nome, email, telefone, senha, sk):
+
+def inserir_secretario(nome, email, telefone, senha, sk, turno):
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
@@ -20,34 +20,34 @@ def inserir_aluno(nome, email, telefone, senha, sk):
             idUsuario = cursor.fetchone()[0]
             connection.commit()
             print("usuario criado....")
-
-            inserir_query_aluno = '''
-            INSERT INTO Student (idStudent, registration)
+            
+            inserir_query_secretario = '''
+            INSERT INTO secretary (idSecretary, turno)
             VALUES (%s, %s);
             '''
-            cursor.execute(inserir_query_aluno, (idUsuario, idUsuario * 10))
+            cursor.execute(inserir_query_secretario, (idUsuario, turno))
             connection.commit()
-            print("Aluno inserido com sucesso.")
+            print("Secretario inserido com sucesso.")
             return idUsuario
         except Exception as error:
-            print(f"Erro ao inserir aluno: {error}")
+            print(f"Erro ao inserir secretario: {error}")
         finally:
             cursor.close()
             connection.close()
 
 # Função para buscar todos os alunos
-def buscar_alunos():
+def buscar_secretarios():
     connection, cursor = connect_to_db()
     if connection and cursor:
         try:
-            buscar_query = "SELECT * FROM Student;"
+            buscar_query = "SELECT * FROM secretary;"
             cursor.execute(buscar_query)
             alunos = cursor.fetchall()
             return alunos
             # for aluno in alunos:
             #     print(aluno)
         except Exception as error:
-            print(f"Erro ao buscar alunos: {error}")
+            print(f"Erro ao buscar secretarios: {error}")
         finally:
             cursor.close()
             connection.close()
