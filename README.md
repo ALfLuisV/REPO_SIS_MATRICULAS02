@@ -60,7 +60,7 @@ quero cadastrar alunos e professores no sistema,
 ## Diagrama de Classes 
 ![diagrama de Classes](Docs/DiagramaDeClasse.png)
 
-##Modelagem do Banco de Dados
+## Modelagem do Banco de Dados
 
 ![Banco de dados](Docs/DERbd.png)
 
