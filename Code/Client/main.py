@@ -87,8 +87,8 @@ class Main:
             widget.grid_forget()
         
         # Adiciona um TabView para as abas Dashboard e Gerência
-        tab_view = ctk.CTkTabview(master=app)
-        tab_view.pack(padx=(20), pady=(20), expand=True, fill="both")
+        tab_view = ctk.CTkTabview(master=app, width=700, height=500,segmented_button_selected_color= "#601E88", segmented_button_selected_hover_color= "#601E65", corner_radius=30)
+        tab_view.pack(expand=True, fill="both")
 
         # Cria a aba Dashboard
         tab_view.add("Dashboard")
@@ -110,43 +110,155 @@ class Main:
         dashboard_frame.grid_rowconfigure(1, weight=1)
 
         # Frame para Disciplinas (cobre as duas colunas na primeira linha)
-        secretariaDisciplinas_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=500)
-        secretariaDisciplinas_frame.grid(row=0, column=1, rowspan=2, sticky="nsew", padx=(20, 20), pady=(20, 20))
+        secretariaDisciplinas_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=500, border_width=2, border_color="#601E88", corner_radius=30)
+        secretariaDisciplinas_frame.grid(row=0, column=1, rowspan=2, sticky="nsew", padx=(20, 0))
 
         # Frame para Professores
-        secretariaProfessores_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=250)
-        secretariaProfessores_frame.grid(row=0, column=0, sticky="nsew", padx=(20, 20), pady=(20, 20))
+        secretariaProfessores_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=250, border_width=2, border_color="#601E88", corner_radius=30)
+        secretariaProfessores_frame.grid(row=0, column=0, sticky="nsew", pady=(0, 15))
 
         # Frame para Alunos
-        secretariaAlunos_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=250)
-        secretariaAlunos_frame.grid(row=1, column=0, sticky="nsew", padx=(20, 20), pady=(20, 20))
+        secretariaAlunos_frame = ctk.CTkScrollableFrame(master=dashboard_frame, width=150, height=250, border_width=2, border_color="#601E88", corner_radius=30)
+        secretariaAlunos_frame.grid(row=1, column=0, sticky="nsew")
 
         # Labels
-        ctk.CTkLabel(master=secretariaDisciplinas_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20, padx=(40,0), side="left")
-        ctk.CTkLabel(master=secretariaProfessores_frame, text="Professores", font=("Arial Bold", 20)).pack(pady=20, padx=(40,0), side="left")
-        ctk.CTkLabel(master=secretariaAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(pady=20, padx=(40,0), side="left")
+        ctk.CTkLabel(master=secretariaDisciplinas_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(padx=(20))
+        ctk.CTkLabel(master=secretariaProfessores_frame, text="Professores", font=("Arial Bold", 20)).pack(padx=(20))
+        ctk.CTkLabel(master=secretariaAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(padx=(20))
         
-        # Botões
-        btnCadastrarDisciplina = ctk.CTkButton(master=secretariaDisciplinas_frame, text="Novo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=30, height=25, corner_radius=30).pack(pady=20, padx=(0,40), side="right")
-        btnCadastrarProfessor = ctk.CTkButton(master=secretariaProfessores_frame, text="Novo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=30, height=25, corner_radius=30).pack(pady=20, padx=(0,40), side="right")
-        btnCadastrarAluno = ctk.CTkButton(master=secretariaAlunos_frame, text="Novo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=30, height=25, corner_radius=30).pack(pady=20, padx=(0,40), side="right")
-
+        
         # ===================== Conteúdo da aba Gerência =====================
         
         gerencia_frame = tab_view.tab("Gerência")
         
-        # Configurando a grade no gerencia_frame (aqui você pode adicionar o conteúdo específico de Gerência)
+        # Configurando a grade no gerencia_frame
         gerencia_frame.grid_columnconfigure(0, weight=1)
-        gerencia_frame.grid_columnconfigure(1, weight=1)
+        gerencia_frame.grid_columnconfigure(1, weight=1)  # Aumenta o espaço para o conteúdo de cadastro ou listagem
         gerencia_frame.grid_rowconfigure(0, weight=1)
         gerencia_frame.grid_rowconfigure(1, weight=1)
-
-        # Exemplo de conteúdo na aba Gerência (você pode modificar conforme necessário)
-        ctk.CTkLabel(master=gerencia_frame, text="Gerenciamento de Recursos", font=("Arial Bold", 20)).grid(row=0, column=0, columnspan=2, pady=(20, 20))
-
-        # Outros frames e widgets relacionados à Gerência podem ser adicionados aqui
-
+        gerencia_frame.grid_rowconfigure(2, weight=1)
         
+        # Frames para Gerenciamento
+        gerencia_disciplinas_frame = ctk.CTkFrame(master=gerencia_frame, height=166)
+        gerencia_disciplinas_frame.grid(row=0, column=0, sticky="nsew")
+        
+        gerencia_professores_frame = ctk.CTkFrame(master=gerencia_frame, height=166)
+        gerencia_professores_frame.grid(row=1, column=0, sticky="nsew")
+        
+        gerencia_alunos_frame = ctk.CTkFrame(master=gerencia_frame, height=166)
+        gerencia_alunos_frame.grid(row=2, column=0, sticky="nsew")
+
+        # Labels para identificar cada seção
+        ctk.CTkLabel(master=gerencia_disciplinas_frame, text="Gerenciamento de Disciplinas", font=("Arial Bold", 20)).pack()
+        ctk.CTkLabel(master=gerencia_professores_frame, text="Gerenciamento de Professores", font=("Arial Bold", 20)).pack()
+        ctk.CTkLabel(master=gerencia_alunos_frame, text="Gerenciamento de Alunos", font=("Arial Bold", 20)).pack()
+
+        # Botões para Gerenciamento de Disciplinas
+        btnGerenciaDisciplinaCadastro = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_formulario("Disciplinas"))
+        btnGerenciaDisciplinaListagem = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Listagem", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_listagem("Disciplinas"))
+        btnGerarCurriculo = ctk.CTkButton(master=gerencia_disciplinas_frame, text="Gerar Currículo", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=self.GerarCurriculo)
+        btnGerenciaDisciplinaCadastro.pack(pady=(15, 5))
+        btnGerenciaDisciplinaListagem.pack(pady=(5, 5))
+        btnGerarCurriculo.pack(pady=(5, 5))
+        
+        # Botões para Gerenciamento de Professores
+        btnGerenciaProfessorCadastro = ctk.CTkButton(master=gerencia_professores_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_formulario("Professores"))
+        btnGerenciaProfessorListagem = ctk.CTkButton(master=gerencia_professores_frame, text="Listagem", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_listagem("Professores"))
+        btnGerenciaProfessorCadastro.pack(pady=(15, 5))
+        btnGerenciaProfessorListagem.pack(pady=(5, 15))
+        
+        # Botões para Gerenciamento de Alunos
+        btnGerenciaAlunoCadastro = ctk.CTkButton(master=gerencia_alunos_frame, text="Cadastro", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_formulario("Alunos"))
+        btnGerenciaAlunoListagem = ctk.CTkButton(master=gerencia_alunos_frame, text="Listagem", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=150, height=30, corner_radius=30, command=lambda: mostrar_listagem("Alunos"))
+        btnGerenciaAlunoCadastro.pack(pady=(15, 5))
+        btnGerenciaAlunoListagem.pack(pady=(5, 15))
+        
+        gerencia_conteudo_frame = ctk.CTkFrame(master=gerencia_frame, border_width=2, border_color="#601E88", corner_radius=30)
+        gerencia_conteudo_frame.grid(row=0, column=1, rowspan=3, sticky="nsew")
+        
+        ctk.CTkLabel(master=gerencia_conteudo_frame, text="Tenha Um Bom Dia !!", font=("Arial Bold", 20)).pack(pady=50)
+        ctk.CTkLabel(master=gerencia_conteudo_frame, text="😊", font=("Arial Bold", 50)).pack(pady=50)
+        
+        def mostrar_formulario(tipo):
+            # Esconder os frames de gerenciamento e mostrar o formulário correspondente
+            if tipo == "Disciplinas":
+                gerencia_professores_frame.grid_forget()
+                gerencia_alunos_frame.grid_forget()
+                gerencia_disciplinas_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
+            elif tipo == "Professores":
+                gerencia_disciplinas_frame.grid_forget()
+                gerencia_alunos_frame.grid_forget()
+                gerencia_professores_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
+            elif tipo == "Alunos":
+                gerencia_disciplinas_frame.grid_forget()
+                gerencia_professores_frame.grid_forget()
+                gerencia_alunos_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
+                TelaCadastroAluno()
+            
+        def mostrar_listagem(tipo):
+            # Esconder os frames de gerenciamento e mostrar a listagem correspondente
+            if tipo == "Disciplinas":
+                gerencia_professores_frame.grid_forget()
+                gerencia_alunos_frame.grid_forget()
+                gerencia_disciplinas_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
+            if tipo == "Professores":
+                gerencia_disciplinas_frame.grid_forget()
+                gerencia_alunos_frame.grid_forget()
+                gerencia_professores_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
+            if tipo == "Alunos":
+                gerencia_disciplinas_frame.grid_forget()
+                gerencia_professores_frame.grid_forget()
+                gerencia_alunos_frame.grid(row=0, column=0, padx=(20, 20), sticky="nsew")
+                        
+            
+        def TelaCadastroAluno():
+            
+            #Frame
+            gerencia_conteudo_frame = ctk.CTkFrame(master=gerencia_frame, border_width=2, border_color="#601E88", corner_radius=30)
+            gerencia_conteudo_frame.grid(row=0, column=1, rowspan=3, sticky="nsew")
+
+            # Adicionar título
+            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Cadastro de Aluno", font=("Arial Bold", 20)).pack(pady=20)
+
+            # Campo de entrada para Nome
+            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Nome:", font=("Arial", 14)).pack(pady=(10, 0))
+            nome_entry = ctk.CTkEntry(master=gerencia_conteudo_frame, width=250, height=30, corner_radius=10)
+            nome_entry.pack(pady=(5, 20))
+
+            # Campo de entrada para Idade
+            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Idade:", font=("Arial", 14)).pack(pady=(10, 0))
+            idade_entry = ctk.CTkEntry(master=gerencia_conteudo_frame, width=100, height=30, corner_radius=10)
+            idade_entry.pack(pady=(5, 20))
+
+            # Campo de entrada para Curso
+            ctk.CTkLabel(master=gerencia_conteudo_frame, text="Curso:", font=("Arial", 14)).pack(pady=(10, 0))
+            curso_entry = ctk.CTkEntry(master=gerencia_conteudo_frame, width=250, height=30, corner_radius=10)
+            curso_entry.pack(pady=(5, 20))
+
+            # Botão de salvar
+            btnSalvar = ctk.CTkButton(master=gerencia_conteudo_frame, text="Salvar", fg_color="#601E88", hover_color="#601E65", font=("Arial", 14), width=100, height=30, corner_radius=30, command=lambda: salvar_aluno(nome_entry.get(), idade_entry.get(), curso_entry.get()))
+            btnSalvar.pack(pady=10, padx=10, side="left")
+
+            # Botão de voltar
+            btnVoltar = ctk.CTkButton(master=gerencia_conteudo_frame, text="Voltar", fg_color="#601E88", hover_color="#601E65", font=("Arial Bold", 14), width=100, height=30, corner_radius=30, command=self.TelaSecretaria)
+            btnVoltar.pack(pady=10, padx=10, side="right")
+
+        def salvar_aluno(nome, idade, curso):
+            # Aqui você pode implementar a lógica para salvar os dados do aluno
+            print(f"Aluno cadastrado: Nome={nome}, Idade={idade}, Curso={curso}")
+        
+    def TelaCadastroProfessor(self):
+        pass
+    
+    def TelaCadastroDisciplina(self):
+        pass
+    
+    def ExcluirDisciplina(self):
+        pass
+    
+    def GerarCurriculo(self):
+        pass
+    
     def TelaAluno(self):
         # Esconde todos os frames atuais
         for widget in app.winfo_children():
@@ -182,7 +294,6 @@ class Main:
         
         titulo1 = ctk.CTkLabel(master=professorDisciplina_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20)
         titulo2 = ctk.CTkLabel(master=professorAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(pady=20)
-        
         
     
     def ProximaTela(self, usuario_tipo):
