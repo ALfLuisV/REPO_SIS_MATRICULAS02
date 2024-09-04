@@ -122,6 +122,7 @@ class Secretario(Usuario):
         senha_gerada = self.gerarsenha()
         prof = Professor(1, name, tel, email, carga_horaria, salario)
         prof.senha = senha_gerada
+        print(senha_gerada)
         sk = bcrypt.gensalt()
         senha_hash = bcrypt.hashpw(senha_gerada.encode('utf-8'), sk)
         id_usuario = inserir_prof(prof.nome, prof.email, prof.telefone, senha_hash, sk, prof.cargahoraria, prof.salario)

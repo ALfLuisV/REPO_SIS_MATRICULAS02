@@ -3,6 +3,7 @@ from PIL import Image
 from Classes.Usuarios.login import Login
 from Classes.Usuarios.secretario import Secretario
 from Server.DbOperations.operationsDiscipline import buscar_disciplinas_por_aluno
+from Code.Server.DbOperations.operationsTeachers import buscar_disciplinas, buscar_alunos_disciplina, buscar_cursos
 
 
 
@@ -91,7 +92,7 @@ class Main:
                 self.idusuario = usuario[0]  # Assumindo que o idusuario é o primeiro elemento da tupla
                 self.TelaAluno()
             elif usuario_tipo == "Professor(a)":
-                self.TelaProfessor()
+                self.TelaProfessor(usuario)
         else:
             print("Email ou senha incorretos!")
             # Aqui você pode adicionar uma notificação na UI para informar o usuário do erro
@@ -204,7 +205,10 @@ class Main:
 
 
         
-    def TelaProfessor(self):
+    def TelaProfessor(self, usuario):
+        print(usuario[0])
+
+
         # Esconde todos os frames atuais
         for widget in app.winfo_children():
             # widget.destroy()
@@ -222,9 +226,174 @@ class Main:
         titulo1 = ctk.CTkLabel(master=professorDisciplina_frame, text="Disciplinas", font=("Arial Bold", 20)).pack(pady=20)
         titulo2 = ctk.CTkLabel(master=professorAlunos_frame, text="Alunos", font=("Arial Bold", 20)).pack(pady=20)
         
+
+                # Armazenar os labels dos cursos ao criar a lista de cursos
+        self.cursos_labels = []
+
+        cursos = buscar_cursos(usuario[0])
+
+        for curso in cursos:
+            curso_label = ctk.CTkLabel(
+                master=professorDisciplina_frame, 
+                text=f"{curso[0]} - {curso[1]}", 
+                font=("Arial", 14)
+            )
+            curso_label.pack(pady=5)
+            self.cursos_labels.append(curso_label)  # Armazena a referência ao label do curso
+
+        self.idCurso_var = ctk.StringVar()
+        idLabel = ctk.CTkLabel(master=professorDisciplina_frame, text="  Insira o id do curso desejado:", text_color="#FFFFFF", anchor="w", justify="left", font=("Arial Bold", 14), compound="left")
+        idLabel.pack(anchor="w", pady=(38, 0), padx=(25, 0))
+
+        idInput = ctk.CTkEntry(master=professorDisciplina_frame, width=300, height=30, fg_color="#EEEEEE", border_color="#601E88", border_width=1.5, text_color="#000000", corner_radius=15, textvariable=self.idCurso_var)
+        idInput.pack(anchor="w", padx=(25, 0))
+
+        # Botão para buscar disciplinas
+        btn_buscar_disciplinas = ctk.CTkButton(
+            master=professorDisciplina_frame, 
+            text="Buscar disciplinas", 
+            fg_color="#601E88", 
+            hover_color="#601E65", 
+            font=("Arial Bold", 18), 
+            text_color="#ffffff", 
+            width=300, 
+            height=40, 
+            command=buscar_e_armazenar_disciplinas,  # Atualizamos o comando para a nova função
+            corner_radius=30
+        )
+        btn_buscar_disciplinas.pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        # Função de buscar e armazenar disciplinas sem interferir nos cursos
+        def buscar_e_armazenar_disciplinas():
+            self.resultado_disciplinas = buscar_disciplinas(usuario[0], self.idCurso_var.get())
+
+            # Verifica se há disciplinas retornadas antes de fazer o loop
+            if self.resultado_disciplinas:
+                # Adiciona as disciplinas abaixo dos cursos já existentes
+                for disciplina in self.resultado_disciplinas:
+                    disc_label = ctk.CTkLabel(
+                        master=professorDisciplina_frame, 
+                        text=f"{disciplina[0]} - {disciplina[1]} - {disciplina[2]} - {disciplina[3]}", 
+                        font=("Arial", 14)
+                    )
+                    disc_label.pack(pady=5)
+
+                self.idDisciplina_var = ctk.StringVar()
+                idDisLabel = ctk.CTkLabel(
+                    master=professorDisciplina_frame, 
+                    text="  Insira o id da disciplina desejada:", 
+                    text_color="#FFFFFF", 
+                    anchor="w", 
+                    justify="left", 
+                    font=("Arial Bold", 14), 
+                    compound="left"
+                )
+                idDisLabel.pack(anchor="w", pady=(38, 0), padx=(25, 0))
+
+                idDisInput = ctk.CTkEntry(
+                    master=professorDisciplina_frame, 
+                    width=300, 
+                    height=30, 
+                    fg_color="#EEEEEE", 
+                    border_color="#601E88", 
+                    border_width=1.5, 
+                    text_color="#000000", 
+                    corner_radius=15, 
+                    textvariable=self.idDisciplina_var
+                )
+                idDisInput.pack(anchor="w", padx=(25, 0))
+
+                # Botão para buscar alunos da disciplina escolhida
+                btn_buscar_alunos = ctk.CTkButton(
+                    master=professorDisciplina_frame, 
+                    text="Buscar alunos", 
+                    fg_color="#601E88", 
+                    hover_color="#601E65", 
+                    font=("Arial Bold", 18), 
+                    text_color="#ffffff", 
+                    width=300, 
+                    height=40, 
+                    command=buscar_e_armazenar_alunos,  # Novo comando para buscar alunos
+                    corner_radius=30
+                )
+                btn_buscar_alunos.pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+
+
+
+        # Função para buscar os alunos da disciplina selecionada
+        def buscar_e_armazenar_alunos():
+            # Chama a função buscar_alunos e armazena o resultado em self.resultado_alunos
+            self.resultado_alunos = buscar_alunos_disciplina(self.idDisciplina_var.get())
+            
+            # Verifica se há alunos retornados antes de fazer o loop
+            if self.resultado_alunos:
+                # Limpa os alunos anteriores, se necessário, ou pode adicionar novos abaixo dos já existentes
+                for widget in professorAlunos_frame.winfo_children():
+                    if isinstance(widget, ctk.CTkLabel):  # Limpa apenas os labels criados
+                        widget.pack_forget()
+
+                # Cria labels para cada aluno retornado
+                for aluno in self.resultado_alunos:
+                    aluno_label = ctk.CTkLabel(
+                        master=professorAlunos_frame, 
+                        text=f"{aluno[0]} - {aluno[1]} - {aluno[2]}", 
+                        font=("Arial", 14)
+                    )
+                    aluno_label.pack(pady=5)
+
+        # Criação do botão de buscar disciplinas (separado do pack)
+        btn_buscar_disciplinas = ctk.CTkButton(
+            master=professorDisciplina_frame, 
+            text="Buscar disciplinas", 
+            fg_color="#601E88", 
+            hover_color="#601E65", 
+            font=("Arial Bold", 18), 
+            text_color="#ffffff", 
+            width=300, 
+            height=40, 
+            command=buscar_e_armazenar_disciplinas,  # Atualizamos o comando para a nova função
+            corner_radius=30
+        )
+
+        # Empacotamento do botão
+        btn_buscar_disciplinas.pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        def limpar_tudo():
+            # Widgets que devem ser preservados
+            widgets_to_keep = [cursos_label, idLabel, idInput, btn_buscar_disciplinas, btn_limpar_tudo]
+            
+            # Loop para verificar e remover widgets em professorDisciplina_frame
+            for widget in professorDisciplina_frame.winfo_children():
+                if widget not in widgets_to_keep:
+                    widget.pack_forget()
+            
+            # Limpa os widgets de professorAlunos_frame
+            for widget in professorAlunos_frame.winfo_children():
+                widget.pack_forget()
+
+
         
-    
-    def ProximaTela(self, usuario_tipo):
+        btn_limpar_tudo = ctk.CTkButton(
+        master=professorDisciplina_frame, 
+        text="Limpar tudo", 
+        fg_color="#FF0000",  # Cor de destaque para o botão de limpar
+        hover_color="#CC0000", 
+        font=("Arial Bold", 18), 
+        text_color="#ffffff", 
+        width=300, 
+        height=40, 
+        command=limpar_tudo,  # Comando para limpar tudo
+        corner_radius=30
+    )
+        btn_limpar_tudo.pack(anchor="w", pady=(10, 0), padx=(25, 0))
+
+        
+
+                
+
+
+    def ProximaTela(self, usuario_tipo, usuario):
         # Esconde todos os frames atuais
         for widget in app.winfo_children():
             # widget.destroy()
@@ -237,7 +406,7 @@ class Main:
         elif usuario_tipo == "Aluno(a)":
             self.TelaAluno()
         elif usuario_tipo == "Professor(a)":
-            self.TelaProfessor()
+            self.TelaProfessor(usuario)
 
 
 # instanciar secretario sec1
