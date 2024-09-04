@@ -64,3 +64,7 @@ quero cadastrar alunos e professores no sistema,
 
 ![Banco de dados](Docs/DERbd.png)
 
+##Diagrama de componentes
+
+![Banco de dados](Docs/DiagramaComponentes.jpeg)
+
